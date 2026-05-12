@@ -10,6 +10,12 @@ sessions and across tools instead of starting from zero every time.
 
 It is built for agent workflows, not for human note-taking.
 
+Current alpha note:
+
+- the public project name is Minerva
+- the current CLI command is still `foundation`
+- wider packaging and naming cleanup will come later
+
 ## What Minerva Is
 
 Minerva is designed around a few simple ideas:
@@ -121,11 +127,11 @@ Manual install:
 
 1. Download the right archive from the latest release.
 2. Extract it.
-3. Move the `minerva` binary somewhere stable on your system.
+3. Move the `foundation` binary and bundled sidecars somewhere stable on your system.
 4. Follow the release notes or compatibility docs for client setup.
 
-For now, the install script is still a placeholder until the first public
-binary release is wired up.
+The first installable alpha is intentionally narrow. Start with the release
+notes to see which platform is actually bundled before relying on the installer.
 
 ## Verify Downloads
 
