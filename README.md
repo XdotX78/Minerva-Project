@@ -1,29 +1,42 @@
 # Minerva Project
 
-Public distribution repository for Minerva.
+Minerva is a local memory layer for LLM agents.
 
-Minerva is a local-first memory substrate for LLM agents. The source code is
-private. This repository exists only for public releases, install instructions,
-checksums, issue tracking, and compatibility notes.
+The goal is simple: help agents remember useful context across sessions, instead
+of starting from zero every time.
 
-## What This Repo Contains
+Minerva is built for agent workflows, not for human note-taking. It is meant to
+store useful memory in a structured way so tools and coding agents can recover
+context, decisions, preferences, and project history when they need it.
 
-- release install instructions
-- public changelog and release notes
-- compatibility and setup docs
-- checksums and verification guidance
-- issue reporting surface
+## Why This Exists
 
-## What This Repo Does Not Contain
+Most agent workflows break in the same place:
 
-- application source code
-- internal architecture details beyond what is needed for installation
-- private build scripts
-- development history
+- the session ends
+- useful context is lost
+- the next session starts cold
+- the same reasoning gets repeated
+
+Minerva exists to reduce that loss.
+
+## What You Get Here
+
+This is the public distribution repository for Minerva.
+
+It contains:
+
+- public releases
+- install instructions
+- checksums
+- compatibility notes
+- issue tracking for install and release problems
+
+It does not contain the application source code.
 
 ## Install
 
-Install from the latest release asset.
+The intended path is: download a release and install the binary.
 
 Linux and macOS:
 
@@ -31,22 +44,25 @@ Linux and macOS:
 curl -fsSL https://raw.githubusercontent.com/Minerva-Project/Minerva-Project/main/install.sh | bash
 ```
 
-Manual install is also supported:
+Manual install:
 
-1. Download the correct archive from the latest release.
-2. Extract the archive.
-3. Run the included `minerva` binary.
-4. Connect your client using the release docs.
+1. Download the right archive from the latest release.
+2. Extract it.
+3. Move the `minerva` binary somewhere stable on your system.
+4. Follow the release notes or compatibility docs for client setup.
 
-## Verify
+For now, the install script is still a placeholder until the first public
+binary release is wired up.
 
-Each release should publish:
+## Verify Downloads
 
+Each public release should include:
+
+- platform archives
 - `SHA256SUMS`
-- per-platform archives
-- concise release notes
+- short release notes
 
-Verify before installing:
+Verify downloaded files before installing:
 
 ```bash
 sha256sum -c SHA256SUMS
@@ -54,16 +70,17 @@ sha256sum -c SHA256SUMS
 
 ## Support
 
-Use GitHub issues in this repository for:
+Use this repository for:
 
 - install failures
-- release asset problems
+- broken release assets
 - compatibility reports
-- documentation issues
+- documentation fixes
 
-Do not expect source-code contributions through this repository.
+This repository is for distribution and usage, not for public source
+contributions.
 
 ## License
 
 Minerva binaries and documentation are distributed under the terms published in
-the release and repository metadata. Source code remains private.
+the release and repository metadata. The source code remains private.
