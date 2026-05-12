@@ -1,13 +1,31 @@
 # Minerva Project
 
-Minerva is a local memory layer for LLM agents.
+Minerva is a local memory system for LLM agents.
 
-The goal is simple: help agents remember useful context across sessions, instead
-of starting from zero every time.
+If you change harness, client, or coding tool, your memory should not reset.
+That is the point of Minerva.
 
-Minerva is built for agent workflows, not for human note-taking. It is meant to
-store useful memory in a structured way so tools and coding agents can recover
-context, decisions, preferences, and project history when they need it.
+Minerva keeps useful memory on your machine so agents can carry context across
+sessions and across tools instead of starting from zero every time.
+
+It is built for agent workflows, not for human note-taking.
+
+## What Minerva Is
+
+Minerva is designed around a few simple ideas:
+
+- your memory should stay with you, even if you switch harness
+- your data should stay local
+- memory retrieval should be fast
+- agents should get both structured memory and document-level fallback when needed
+
+In practice, that means:
+
+- local-first storage
+- no cloud dependency for core memory
+- one memory layer shared across different agent environments
+- structured memory for fast recall
+- a second document/RAG layer for long-form material when needed
 
 ## Why This Exists
 
@@ -18,7 +36,62 @@ Most agent workflows break in the same place:
 - the next session starts cold
 - the same reasoning gets repeated
 
-Minerva exists to reduce that loss.
+Minerva exists to stop that from happening.
+
+If you used one setup yesterday and a different one today, you should still be
+able to bring your memory with you.
+
+## Local, Private, Fast
+
+Minerva is meant to run locally.
+
+The direction is:
+
+- your memory lives on your machine
+- your private context stays under your control
+- switching tools should not mean losing continuity
+- retrieval should stay quick enough to be useful in real work
+
+The privacy model is simple: keep the memory local by default, instead of
+building around a hosted service.
+
+## Two Memory Layers
+
+Minerva has two different memory paths:
+
+1. structured memory for active recall
+2. document memory for long-form fallback
+
+The first layer is for things like:
+
+- decisions
+- preferences
+- project facts
+- relationships
+- session continuity
+
+The second layer is for longer material that should still be searchable when
+needed, without turning the whole system into a document vault.
+
+That combination matters: fast structured memory for normal use, and RAG for
+deep reference when the task actually needs it.
+
+## Project Status
+
+Minerva is still early.
+
+The direction is broad, but the implementation is being built incrementally:
+
+- start with the most useful local workflows
+- expand compatibility over time
+- improve install and setup before widening the surface too much
+
+This is currently a one-developer project, so support will expand in stages
+rather than all at once.
+
+The long-term goal is to support as many useful runtimes, harnesses,
+connectors, and scaffolding paths as possible, but the rollout has to stay
+practical and incremental.
 
 ## What You Get Here
 
