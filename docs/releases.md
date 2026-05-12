@@ -19,12 +19,14 @@ Suggested assets:
 
 The first installable public alpha is intentionally narrow.
 
-Current packaged target:
+Currently published:
 
 - `minerva-linux-x86_64.tar.gz`
 
 Planned later:
 
-- macOS assets
-- Windows assets
+- `minerva-macos-aarch64.tar.gz`
+- `minerva-windows-x86_64.zip`
+- broader macOS coverage
+- broader Windows coverage
 - broader installer coverage

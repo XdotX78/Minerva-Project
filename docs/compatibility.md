@@ -15,5 +15,10 @@ Installable release asset currently available:
 
 - Linux x86_64
 
+Planned public assets:
+
+- macOS Apple Silicon
+- Windows x86_64
+
 Project direction is wider than that, but public packaging is being rolled out
 step by step.

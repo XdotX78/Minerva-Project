@@ -14,9 +14,12 @@ case "$platform:$arch" in
   Linux:x86_64)
     asset="minerva-linux-x86_64.tar.gz"
     ;;
+  Darwin:arm64)
+    asset="minerva-macos-aarch64.tar.gz"
+    ;;
   *)
     echo "unsupported platform for this alpha release: $platform $arch" >&2
-    echo "check the releases page for manual install options" >&2
+    echo "for Windows use install.ps1; otherwise check the releases page for manual install options" >&2
     exit 1
     ;;
 esac

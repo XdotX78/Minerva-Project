@@ -15,6 +15,7 @@ Current alpha note:
 - the public project name is Minerva
 - the current CLI command is still `foundation`
 - wider packaging and naming cleanup will come later
+- public packaged targets are being expanded in stages
 
 ## What Minerva Is
 
@@ -123,6 +124,12 @@ Linux and macOS:
 curl -fsSL https://raw.githubusercontent.com/Minerva-Project/Minerva-Project/main/install.sh | bash
 ```
 
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/Minerva-Project/Minerva-Project/main/install.ps1 | iex
+```
+
 Manual install:
 
 1. Download the right archive from the latest release.
@@ -130,8 +137,8 @@ Manual install:
 3. Move the `foundation` binary and bundled sidecars somewhere stable on your system.
 4. Follow the release notes or compatibility docs for client setup.
 
-The first installable alpha is intentionally narrow. Start with the release
-notes to see which platform is actually bundled before relying on the installer.
+The first installable public wave is still staged. Check the release notes to
+see which platform assets are published before relying on the installer.
 
 ## Verify Downloads
 
