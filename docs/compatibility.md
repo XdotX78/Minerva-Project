@@ -11,14 +11,10 @@ Do not mirror private implementation notes here.
 
 ## Current Public Alpha
 
-Installable release asset currently available:
+Installable release assets currently available:
 
 - Linux x86_64
-
-Planned public assets:
-
 - macOS Apple Silicon
 - Windows x86_64
 
-Project direction is wider than that, but public packaging is being rolled out
-step by step.
+Project direction is wider than that, but public packaging is still being rolled out step by step.

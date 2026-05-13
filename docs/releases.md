@@ -7,26 +7,26 @@ Every public release should include:
 - minimal install notes
 - compatibility notes
 
-Suggested assets:
+Current asset set:
 
 - `minerva-linux-x86_64.tar.gz`
-- `minerva-linux-aarch64.tar.gz`
 - `minerva-macos-aarch64.tar.gz`
 - `minerva-windows-x86_64.zip`
 - `SHA256SUMS`
 
 ## Current Alpha Reality
 
-The first installable public alpha is intentionally narrow.
+The public alpha is still early, but it is no longer Linux-only.
 
 Currently published:
 
 - `minerva-linux-x86_64.tar.gz`
+- `minerva-macos-aarch64.tar.gz`
+- `minerva-windows-x86_64.zip`
 
 Planned later:
 
-- `minerva-macos-aarch64.tar.gz`
-- `minerva-windows-x86_64.zip`
+- Linux aarch64
 - broader macOS coverage
 - broader Windows coverage
 - broader installer coverage
