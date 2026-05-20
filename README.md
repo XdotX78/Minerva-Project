@@ -1,7 +1,7 @@
 # Minerva
 
 <p align="center">
-  <img src="assets/morgana-project-logo.png" alt="Minerva" width="420"/>
+  <img src="assets/minervalogofinal.png" alt="Minerva" width="420"/>
 </p>
 
 <p align="center">
