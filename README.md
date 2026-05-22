@@ -31,10 +31,12 @@ accessible to any agent you connect. Switch tools and it's still there.
 
 - Local SQLite database, no server, no cloud, no external dependency
 - MCP over stdio, connects any client in minutes
+- Hybrid search: full-text (BM25) + semantic (vec0) in a single query
+- Decision lineage: stores what was decided, why, and which session it came from
+- Cross-domain discovery: surfaces connections between facts you never explicitly linked
+- Minerva, a local browser dashboard to inspect your memory
 - Works with Claude Code, Cursor, Codex, OpenCode, Cline, Roo Code, VS Code,
   Windsurf, Zed, Gemini CLI, and more
-- Structured memory: facts, decisions, preferences, relations, session history
-- Document layer with RAG fallback for longer reference material
 - Linux, macOS, and Windows
 
 ## Install
@@ -64,7 +66,9 @@ There are two memory layers.
 
 Structured memory is the fast path: facts, decisions, preferences, relations,
 and session continuity. An agent that connects picks up where the last session
-left off, without needing to rebuild context.
+left off, without rebuilding context. Every decision includes the reasoning
+behind it and the session it came from. The next agent inherits context, not
+just conclusions.
 
 Document memory handles longer material. Plans, notes, references, research.
 It stays searchable without flooding active recall. RAG fallback when the task
