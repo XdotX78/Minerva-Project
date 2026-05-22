@@ -14,30 +14,31 @@
 
 ---
 
-**Persistent local memory for AI agents.**
+Every session starts cold.
 
-Every time you switch tools, your context dies.
+You've explained the architecture three times this week. The agent doesn't know
+why you made that call last Tuesday. It doesn't know what you tried and rejected.
+Every switch, every reset, you pay for the same work again.
 
-Decisions disappear. Architecture reasoning disappears. The agent starts cold
-and you spend the first part of the session rebuilding what you already knew.
+Memory shouldn't belong to the tool. It should belong to you.
 
-Your memory shouldn't belong to whatever tool you happen to be using today.
+Minerva is a local memory runtime. Facts, decisions, preferences, and session
+history stored in a SQLite database on your machine — readable by any agent
+you connect, outlasting any single tool, model, or harness.
 
-Minerva keeps a local memory layer outside any single harness, model, or
-editor. Facts, decisions, preferences, session history — stored on your machine,
-accessible to any agent you connect. Switch tools and it's still there.
+Switch agents. Keep everything.
 
 ## Already running
 
-- Local SQLite database, no server, no cloud, no external dependency
-- MCP over stdio, connects any client in minutes
-- Hybrid search: full-text (BM25) + semantic (vec0) in a single query
-- Decision lineage: stores what was decided, why, and which session it came from
-- Cross-domain discovery: surfaces connections between facts you never explicitly linked
+- SQLite + vec0 on disk, no server, no cloud, no external dependency
+- MCP over stdio — any client connects in minutes
+- Hybrid search: full-text (BM25) + semantic (vec0) in one query
+- Decision lineage: what was decided, why, which session it came from
+- Cross-domain discovery: connections between facts you never explicitly linked
 - Minerva, a local browser dashboard to inspect your memory
-- Works with Claude Code, Cursor, Codex, OpenCode, Cline, Roo Code, VS Code,
-  Windsurf, Zed, Gemini CLI, and more
-- Linux, macOS, and Windows
+- 11 connectors: Claude Code, Cursor, Codex, OpenCode, Cline, Roo Code,
+  VS Code, Windsurf, Zed, Gemini CLI, Continue
+- Linux, macOS, Windows
 
 ## Install
 
@@ -62,17 +63,14 @@ Supported: `claude-code` · `cursor` · `codex` · `opencode` · `cline` ·
 
 ## What Minerva keeps
 
-There are two memory layers.
+Two layers.
 
-Structured memory is the fast path: facts, decisions, preferences, relations,
-and session continuity. An agent that connects picks up where the last session
-left off, without rebuilding context. Every decision includes the reasoning
-behind it and the session it came from. The next agent inherits context, not
-just conclusions.
+Structured memory covers the fast-recall surface: facts, decisions, preferences,
+relations, session continuity. Every decision includes the reasoning behind it
+and which session it came from. The next agent picks up context, not just conclusions.
 
-Document memory handles longer material. Plans, notes, references, research.
-It stays searchable without flooding active recall. RAG fallback when the task
-actually needs to go deeper.
+Document memory handles longer material — plans, notes, references, research —
+indexed and searchable without taking up active context.
 
 ## Local-first
 
@@ -80,11 +78,7 @@ Your memory stays on your machine. No account, no hosted backend.
 
 ## Alpha
 
-Early alpha, running today on Linux x86_64, macOS Apple Silicon, and Windows
-x86_64.
-
-The public project name is Minerva. The CLI command is still `foundation`
-while naming cleanup is in progress.
+Early alpha, running today on Linux x86_64, macOS Apple Silicon, and Windows x86_64.
 
 Verify before installing:
 
