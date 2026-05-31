@@ -12,6 +12,14 @@
   <img src="https://img.shields.io/badge/license-source--available-lightgrey" alt="source-available"/>
 </p>
 
+<p align="center">
+  <a href="#install">Install</a> ·
+  <a href="#connect-a-client">Connect</a> ·
+  <a href="#minerva-dashboard">Dashboard</a> ·
+  <a href="#upgrade">Upgrade</a> ·
+  <a href="#screenshots">Screenshots</a>
+</p>
+
 ---
 
 Every session starts cold.
@@ -24,6 +32,30 @@ Memory shouldn't belong to the tool. It should belong to you.
 Minerva is a local memory runtime for AI agents. Facts, decisions, preferences,
 and session history stored in a SQLite database on your machine, readable by any
 agent you connect. Switch tools and it's still there.
+
+```
+agents write → Foundation remembers → agents recall → context survives
+```
+
+```mermaid
+flowchart LR
+    CC["Claude Code"]
+    CU["Cursor"]
+    CD["Codex / OpenCode"]
+    OT["any MCP client"]
+
+    F(("Foundation\nLocal Memory"))
+
+    CC -- facts · decisions --> F
+    CU -- facts · decisions --> F
+    CD -- facts · decisions --> F
+    OT -- facts · decisions --> F
+
+    F -- recall · search --> CC
+    F -- recall · search --> CU
+    F -- recall · search --> CD
+    F -- recall · search --> OT
+```
 
 ---
 
