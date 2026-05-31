@@ -134,6 +134,26 @@ What you can do:
 
 ---
 
+## Screenshots
+
+**Overview** — everything Minerva knows at a glance: entity and fact counts, open decisions, recent sessions, and health status.
+
+![Overview](assets/screenshots/overview.png)
+
+**Memory** — full-text and semantic search across structured memory, with fact detail and filtering by type, importance, and verification status.
+
+![Memory](assets/screenshots/memory.png)
+
+**Decisions** — review open decisions, verify or dispute each one, close what is settled.
+
+![Decisions](assets/screenshots/decisions.png)
+
+**Diagnostics** — runtime health, memory counts, and index consistency for vector and full-text search.
+
+![Diagnostics](assets/screenshots/diagnostics.png)
+
+---
+
 ## Naming: Minerva and Foundation
 
 The public project name is Minerva.
