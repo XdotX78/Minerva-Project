@@ -1,191 +1,218 @@
-# Minerva Project
+# Minerva
 
 <p align="center">
-  <img src="assets/morgana-project-logo.png" alt="Morgana Project logo" width="420"/>
+  <img src="assets/minervalogofinal.png" alt="Minerva" width="420"/>
 </p>
 
+<p align="center">
+  <img src="https://img.shields.io/badge/status-alpha-orange" alt="alpha"/>
+  <img src="https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-blue" alt="platform"/>
+  <img src="https://img.shields.io/badge/protocol-MCP-6f42c1" alt="MCP"/>
+  <img src="https://img.shields.io/badge/built%20with-Rust-orange?logo=rust&logoColor=white" alt="Rust"/>
+  <img src="https://img.shields.io/badge/license-source--available-lightgrey" alt="source-available"/>
+</p>
 
-Minerva is a local memory system for LLMs.
+---
 
-The basic idea is simple: if you switch harness, client, editor, or coding
-agent, your memory should come with you.
+Every session starts cold.
 
-That sounds obvious, but most AI workflows still reset every time the session
-ends or the tool changes. Context gets lost, decisions disappear, the same
-reasoning gets repeated, and the model starts cold again.
+Switch harness, change client, open a new session — context is gone. Decisions
+disappear. The model starts over. You explain the same things again.
 
-Minerva exists to stop that.
+Memory shouldn't belong to the tool. It should belong to you.
 
-It started from a familiar feeling: Obsidian is great for humans, but I wanted
-something that played the same role for LLMs. Not a note vault for me to browse
-by hand, but a memory layer an agent can search, recall, and carry across
-sessions.
+Minerva is a local memory runtime for AI agents. Facts, decisions, preferences,
+and session history stored in a SQLite database on your machine, readable by any
+agent you connect. Switch tools and it's still there.
 
-So the direction is not “better notes”. The direction is an AI-centric memory
-system: local, fast, structured, and actually useful during real work.
+---
 
-Current alpha note:
+## Status
 
-- the public project name is Minerva
-- the current CLI command is still `foundation`
-- packaging and naming cleanup are still in progress
-- public platform support is being expanded in stages
+**Current release: 0.1.0-alpha.3 — public alpha.**
 
-## What Minerva Tries To Be
+What is working today:
 
-Minerva is meant to be a durable memory substrate for AI systems.
+- MCP server — running and accepting connections from supported clients
+- CLI (`foundation` binary) — installs and runs on Linux, macOS, and Windows
+- Minerva dashboard — memory inspection, structured search, workflow traces, write and edit
+- Remote access — reachable from another machine over a private network or VPN
 
-That means:
+The core is functional. Packaging and naming are still being cleaned up.
 
-- memory stays with you even if you change harness
-- memory stays local on your machine
-- retrieval is fast enough to be used constantly, not just occasionally
-- agents can search both structured facts and longer documents
-- the system is built for LLM use first, not for human-first browsing
+---
 
-This project is heavily shaped by the idea that models work better when memory
-is treated as infrastructure, not as a chat transcript or a pile of notes.
+## Already running
 
-## Built For LLM Work, Not Human Note-Taking
+- SQLite + vec0 on disk, no server, no cloud, no external dependency
+- MCP over stdio — any client connects in minutes
+- Hybrid search: full-text (BM25) + semantic (vec0) in one query
+- Decision lineage: what was decided, why, which session it came from
+- Cross-domain discovery: connections between facts you never explicitly linked
+- Minerva, a local browser dashboard to inspect your memory
+- 14 connectors: Claude Code, Cursor, Codex, OpenCode, Cline, Roo Code,
+  VS Code, Windsurf, Zed, Gemini CLI, Continue, Copilot, Hermes, Pi
+- Linux, macOS, Windows
 
-Minerva is not trying to replace Obsidian as a human writing tool.
+---
 
-The goal is different.
+## What Minerva is
 
-For humans, a good system helps you write, organize, connect, and revisit your
-thoughts.
+A memory layer for AI agents, not a note-taking tool.
 
-For LLMs, a good system should do something else:
+It is not designed for a human to browse or organize manually. The interface
+exists for inspection and operational control.
 
-- preserve decisions
-- preserve preferences
-- preserve project facts
-- preserve relationships between things
-- preserve long-form reference material without polluting active memory
-- make all of that retrievable quickly and safely
+There is no cloud backend, no subscription, no remote storage. Everything lives
+on your machine.
 
-That is the real target.
+It does not relay messages between agents or coordinate conversations. It stores
+memory that agents can read and write. That is a separate layer from messaging
+or orchestration.
 
-## Why It Is Fast
+---
 
-Minerva is written in Rust and designed around fast local retrieval.
+## Two memory layers
 
-The point is not just that Rust is fast in theory. The point is that memory only
-matters if using it is cheap enough to become part of normal workflow.
+### Structured memory
 
-If recall is slow, noisy, or expensive, people stop using it.
+The fast path.
 
-So Minerva is built around:
+Decisions, insights, preferences, project facts, relations between entities,
+session continuity. This is what lets an agent resume work without rebuilding
+context from scratch.
 
-- local storage
-- compact structured memory
-- fast search paths for active recall
-- a second document path for deeper fallback when needed
+### Document memory
 
-Normal work should hit structured memory first. Longer material should only come
-in when the task actually needs it.
+The deeper path.
 
-## Two Memory Layers
+Long-form material — plans, notes, documentation, references — kept searchable
+without flooding the active memory path. RAG-style fallback when the task needs
+to go deeper.
 
-Minerva has two memory layers.
+Fast structured recall by default. Document retrieval only when the question
+actually requires it.
 
-### 1. Structured memory
+---
 
-This is the fast path.
+## Beyond memory: intent, tasks, and coordination
 
-It is for things like:
+Minerva also tracks:
 
-- decisions
-- insights
-- preferences
-- project facts
-- relations between entities
-- session continuity
+- intent registry: what an agent was trying to do, not just what it stored
+- task coordination: structured task state that persists across sessions and clients
+- workflow traces: a record of what happened, when, and in what sequence
 
-This layer is what lets an LLM resume work without rebuilding the same context
-again and again.
+An agent using Minerva can reconstruct the shape of previous work: what was in
+progress, what was decided, what was abandoned and why.
 
-### 2. Document memory and RAG fallback
+The Minerva dashboard exposes all of this directly.
 
-This is the deeper path.
+---
 
-Long-form material can still matter: plans, notes, documentation, references,
-comparison docs, research text.
+## Minerva dashboard
 
-That material should remain searchable, but it should not flood the active
-memory path.
+The operational interface for the running system. Not for daily work — for
+inspection and control.
 
-So Minerva keeps a separate document layer and uses RAG-style fallback when the
-agent needs deeper reference.
+What it shows today:
 
-That split matters.
+- Memory state: entities, facts, relations in structured memory
+- Document index: what is in the document layer and is searchable
+- Workflow traces: history of agent operations, sessions, and task sequences
+- Search: structured search across the full memory graph
 
-You want fast structured recall by default, and document retrieval only when the
-question actually requires it.
+What you can do:
 
-## Search And Recall
+- inspect and navigate stored memory
+- search across structured and document memory
+- write and edit memory entries directly
+- review workflow history
 
-Minerva is built around the idea that memory needs more than storage. It needs a
-usable retrieval model.
+---
 
-The system is designed to support:
+## Naming: Minerva and Foundation
 
-- fast recall of durable facts
-- hybrid search across memory
-- document search when structured memory is not enough
-- continuity across sessions and tools
+The public project name is Minerva.
 
-The result should feel less like “searching a notes folder” and more like
-having a memory layer an agent can actually work with.
+The current CLI command is `foundation`. This is a temporary gap while naming
+and packaging are being cleaned up. When you install and run the system, you
+will be calling `foundation` at the terminal. That is the right binary.
 
-## Local By Default
+Expect `foundation` in all commands for now.
 
-Minerva is local-first.
+---
 
-That matters for two reasons:
+## Supported clients
 
-- privacy
-- reliability
+Minerva exposes a standard MCP server. Any client that speaks MCP can connect.
 
-Your memory lives on your machine.
-The goal is to keep your working context under your control instead of building
-around a hosted memory backend.
+Clients with confirmed connectors:
 
-If you care about private context, long-lived projects, and continuity across
-harnesses, this is the right default.
+| Client | Status |
+|---|---|
+| Claude Code | Supported |
+| Cursor | Supported |
+| Codex | Supported |
+| OpenCode | Supported |
+| Cline | Supported |
+| Roo Code | Supported |
+| VS Code | Supported |
+| Windsurf | Supported |
+| Zed | Supported |
+| Gemini CLI | Supported |
+| Continue | Supported |
+| Copilot | Supported |
+| Hermes | Supported |
+| Pi | Supported |
 
-## Where This Is Going
+If your tool supports MCP server configuration, it should work.
 
-The long-term direction is broad:
+---
 
-- more harnesses
-- more clients
-- more connectors
-- more scaffolding paths
-- better continuity across very different agent environments
+## Local-first, not only localhost
 
-But the rollout is intentionally incremental.
+Your data lives on your machine, under your control.
 
-This is currently a one-developer project, so the right tradeoff is to keep the
-system sharp and useful before making it wide.
+But local-first does not mean the server is locked to localhost. Minerva can be
+reached from another machine on the same private network or over a VPN or
+Tailnet. Useful when your development machine is remote and your editor needs
+to reach the same memory server.
 
-## What You Get Here
+Minerva does not expose a raw public endpoint. If you route it over a private
+network or Tailscale, that is your call. The default is local.
 
-This is the public distribution repository for Minerva.
+---
 
-It contains:
+## Why it is fast
 
-- public releases
-- install instructions
-- checksums
-- compatibility notes
-- issue tracking for install and release problems
+Minerva is written in Rust and built around fast local retrieval. Memory only
+matters if using it is cheap enough to become part of normal workflow. If recall
+is slow or noisy, people stop using it.
 
-It does not contain the application source code.
+The design is: local storage, compact structured memory, fast search paths for
+active recall, and a document path for deeper fallback when needed.
+
+Normal work hits structured memory first. Longer material comes in only when
+the task actually needs it.
+
+---
+
+## Requirements
+
+Supported platforms:
+
+- Linux x86_64
+- macOS Apple Silicon
+- Windows x86_64
+
+Linux aarch64 and broader coverage are planned in later releases.
+
+The binary bundle is self-contained. No external runtime dependencies.
+
+---
 
 ## Install
-
-The intended path is: download a release and install the binary.
 
 Linux and macOS:
 
@@ -203,25 +230,119 @@ Manual install:
 
 1. Download the right archive from the latest release.
 2. Extract it.
-3. Move the `foundation` binary and bundled sidecars somewhere stable on your system.
-4. Follow the release notes or compatibility docs for client setup.
+3. Move the `foundation` binary and bundled sidecars somewhere stable.
+4. Follow the release notes for client setup.
 
-The public rollout is still staged. Check the release notes to see which
-platform assets are currently published before relying on the installer.
+The rollout is staged. Check the release notes to confirm which platform assets
+are published before relying on the installer.
 
-## Verify Downloads
+---
 
-Each public release should include:
+## Verify downloads
+
+Each public release includes:
 
 - platform archives
 - `SHA256SUMS`
 - short release notes
 
-Verify downloaded files before installing:
-
 ```bash
 sha256sum -c SHA256SUMS
 ```
+
+---
+
+## Connect a client
+
+The quickest path is the built-in connector:
+
+```bash
+foundation connect <tool>
+```
+
+Supported connector IDs: `claude-code` · `cursor` · `codex` · `opencode` ·
+`cline` · `roo-code` · `vscode` · `windsurf` · `zed` · `gemini-cli` · `continue` ·
+`copilot` · `hermes` · `pi`
+
+Example:
+
+```bash
+foundation connect cursor
+foundation doctor cursor
+```
+
+Check the release notes for the config format if you need to set up a client
+manually.
+
+---
+
+## Usage examples
+
+### Memory across sessions with Claude Code
+
+Start a session, work on a project. Minerva records decisions, preferences, and
+facts as you go. Close Claude Code. Open it again tomorrow.
+
+The model picks up context from where it left off: what you decided, what the
+project state was, what changed. No manual context-pasting.
+
+### Switching clients mid-project
+
+You start in Claude Code, then move to Cursor for a different part of the work.
+Both clients point at the same Minerva server. Cursor sees the same memory that
+Claude Code built up. The project context is not locked to the client.
+
+### Structured search and document retrieval
+
+You ask the model to find a decision you made two weeks ago about an API design.
+Minerva queries structured memory first. If the answer is not there, it falls
+back to the document layer — searching long-form material, plans, and reference
+docs you have stored.
+
+The model gets a specific, sourced answer rather than reasoning from scratch.
+
+---
+
+## Upgrade
+
+Re-run the installer to replace the existing binary with the latest version:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.sh | bash
+```
+
+To roll back, download a previous release archive and extract it in place.
+
+---
+
+## Uninstall
+
+Remove the `foundation` binary and bundled sidecar components. The data
+directory is separate — removing it is optional and will delete your stored
+memory.
+
+Check the release notes for the exact paths for your platform.
+
+---
+
+## Backup
+
+Your memory database is a regular file on disk. Back it up by copying the data
+directory. No special export step is needed.
+
+The database survives upgrades. Your memory is not reset when you update the binary.
+
+---
+
+## What you get here
+
+This is the public distribution repository for Minerva.
+
+It contains public releases, install instructions, checksums, compatibility
+notes, and issue tracking for install and release problems. It does not contain
+the application source code.
+
+---
 
 ## Support
 
@@ -232,8 +353,7 @@ Use this repository for:
 - compatibility reports
 - documentation fixes
 
-This repository is for distribution and usage, not for public source
-contributions.
+---
 
 ## License
 
