@@ -4,6 +4,13 @@
 
 - No unreleased changes yet.
 
+## 0.1.0-alpha.4bis — 2026-05-31
+
+- Decisions dashboard page: review and act on open decisions (verify, dispute, close).
+- Diagnostics dashboard page: system health, memory counts, index consistency.
+- Dashboard sidebar shows the installed release version.
+- Dashboard now fully in English.
+
 ## 0.1.0-alpha.4 — 2026-05-31
 
 ### Relationship layer
