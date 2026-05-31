@@ -118,16 +118,19 @@ inspection and control.
 What it shows today:
 
 - Memory state: entities, facts, relations in structured memory
+- Decisions: open decisions with verify / dispute / close actions
 - Document index: what is in the document layer and is searchable
 - Workflow traces: history of agent operations, sessions, and task sequences
 - Search: structured search across the full memory graph
+- Diagnostics: system health, index consistency, memory counts
 
 What you can do:
 
 - inspect and navigate stored memory
 - search across structured and document memory
 - write and edit memory entries directly
-- review workflow history
+- review and close open decisions
+- monitor system health and index status
 
 ---
 
@@ -305,13 +308,29 @@ The model gets a specific, sourced answer rather than reasoning from scratch.
 
 ## Upgrade
 
-Re-run the installer to replace the existing binary with the latest version:
+If you already have Minerva installed, use the built-in update command:
+
+```bash
+foundation update
+foundation restart
+```
+
+This downloads the latest release, replaces the binary, and leaves your database
+and configuration untouched.
+
+To pin a specific version:
+
+```bash
+foundation update --version 0.1.0-alpha.4
+```
+
+To roll back, download a previous release archive and extract it in place.
+
+For a fresh machine or a broken install, re-run the full installer:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.sh | bash
 ```
-
-To roll back, download a previous release archive and extract it in place.
 
 ---
 
