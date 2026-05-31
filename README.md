@@ -29,7 +29,7 @@ agent you connect. Switch tools and it's still there.
 
 ## Status
 
-**Current release: 0.1.0-alpha.3 — public alpha.**
+**Current release: 0.1.0-alpha.4 — public alpha.**
 
 What is working today:
 
