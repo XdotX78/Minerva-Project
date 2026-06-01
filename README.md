@@ -82,8 +82,8 @@ The core is functional. Packaging and naming are still being cleaned up.
 - Decision lineage: what was decided, why, which session it came from
 - Cross-domain discovery: connections between facts you never explicitly linked
 - Minerva, a local browser dashboard to inspect your memory
-- 14 connectors: Claude Code, Cursor, Codex, OpenCode, Cline, Roo Code,
-  VS Code, Windsurf, Zed, Gemini CLI, Continue, Copilot, Hermes, Pi
+- 15 connectors: Claude Code, Cursor, Codex, OpenCode, OpenClaw, Cline,
+  Roo Code, VS Code, Windsurf, Zed, Gemini CLI, Continue, Copilot, Hermes, Pi
 - Linux, macOS, Windows
 
 ---
@@ -210,6 +210,7 @@ Clients with confirmed connectors:
 | Cursor | Supported |
 | Codex | Supported |
 | OpenCode | Supported |
+| OpenClaw | Supported (automatic memory) |
 | Cline | Supported |
 | Roo Code | Supported |
 | VS Code | Supported |
@@ -222,6 +223,75 @@ Clients with confirmed connectors:
 | Pi | Supported |
 
 If your tool supports MCP server configuration, it should work.
+
+## Automatic memory: Claude Code and OpenClaw
+
+Most MCP clients load memory **on demand** — the agent calls a tool when it needs
+context. Two clients go further and make the whole loop hands-off through native
+lifecycle hooks: **Claude Code** and **OpenClaw**. With these, you never have to
+remember to load or save anything.
+
+### The loop
+
+```
+session starts  → memory snapshot injected automatically
+you work        → facts and decisions captured as you go
+session ends    → session summarized and saved automatically
+```
+
+### Claude Code
+
+`foundation connect claude-code` plus the bundled hooks wire three events:
+
+- **SessionStart** — injects a memory snapshot (active project, recent decisions,
+  open threads) before your first message.
+- **PostToolUse (Write / Edit)** — captures work in real time as files change.
+- **Stop** — summarizes the session and extracts durable facts when the session ends.
+
+### OpenClaw
+
+[OpenClaw](https://github.com/openclaw/openclaw) exposes the same kind of lifecycle
+events. `foundation connect openclaw`:
+
+1. Registers the Minerva MCP server in `~/.openclaw/openclaw.json`.
+2. Installs two hooks in `~/.openclaw/hooks/`:
+   - **foundation-bootstrap** (`gateway:startup`, `agent:bootstrap`) — loads the
+     snapshot and injects it into the agent at startup.
+   - **foundation-session** (`gateway:shutdown`, `/new`, `/reset`) — saves the
+     session back into memory in the background.
+
+Enable the hooks once and restart the gateway:
+
+```bash
+foundation connect openclaw
+openclaw hooks enable foundation-bootstrap foundation-session
+```
+
+Clients without lifecycle hooks (Codex, Cursor, and the rest) still read and write
+memory through MCP — they just do it on demand instead of automatically.
+
+## Session review
+
+Capturing a raw session is cheap. Turning it into **durable memory** is the job of the
+session-review pass.
+
+A summary records what happened. Session review goes one level up: it reads the
+session and extracts the signals worth keeping for next time —
+
+- **decisions** — what was decided and why
+- **insights** — non-obvious things learned
+- **behavioral signals** — how you prefer to work (corrections, confirmed approaches)
+- **open threads** — what is still unfinished
+
+These are written into Minerva as first-class memory, sourced back to the session,
+so the next agent on any client starts from conclusions instead of re-reading a
+transcript.
+
+**When it runs.** On Claude Code the Stop hook marks a review as pending when a
+session is substantial enough to be worth it; the review then runs as a background
+sub-agent. On clients without a stop hook (e.g. Codex), Minerva marks the same
+pending state and the review runs when you trigger it. Either way the goal is the
+same: nothing durable from a working session is lost when the session closes.
 
 ---
 
@@ -316,8 +386,8 @@ foundation connect <tool>
 ```
 
 Supported connector IDs: `claude-code` · `cursor` · `codex` · `opencode` ·
-`cline` · `roo-code` · `vscode` · `windsurf` · `zed` · `gemini-cli` · `continue` ·
-`copilot` · `hermes` · `pi`
+`openclaw` · `cline` · `roo-code` · `vscode` · `windsurf` · `zed` · `gemini-cli` ·
+`continue` · `copilot` · `hermes` · `pi`
 
 Example:
 
