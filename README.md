@@ -82,9 +82,9 @@ The core is functional. Packaging and naming are still being cleaned up.
 - Decision lineage: what was decided, why, which session it came from
 - Cross-domain discovery: connections between facts you never explicitly linked
 - Minerva, a local browser dashboard to inspect your memory
-- 17 connectors: Claude Code, Claude Desktop, Cursor, Codex, OpenCode, OpenClaw,
+- 19 connectors: Claude Code, Claude Desktop, Cursor, Codex, OpenCode, OpenClaw,
   Cline, Roo Code, VS Code, Windsurf, Zed, Gemini CLI, Continue, Copilot, Hermes,
-  Pi, Amazon Q
+  Pi, Amazon Q, JetBrains (Junie), Goose
 - Linux, macOS, Windows
 
 ---
@@ -224,6 +224,8 @@ Clients with confirmed connectors:
 | Hermes | Supported |
 | Pi | Supported |
 | Amazon Q | Supported |
+| JetBrains (Junie) | Supported |
+| Goose | Supported |
 
 If your tool supports MCP server configuration, it should work.
 
@@ -390,7 +392,8 @@ foundation connect <tool>
 
 Supported connector IDs: `claude-code` · `claude-desktop` · `cursor` · `codex` ·
 `opencode` · `openclaw` · `cline` · `roo-code` · `vscode` · `windsurf` · `zed` ·
-`gemini-cli` · `continue` · `copilot` · `hermes` · `pi` · `amazon-q`
+`gemini-cli` · `continue` · `copilot` · `hermes` · `pi` · `amazon-q` ·
+`jetbrains` · `goose`
 
 Example:
 
