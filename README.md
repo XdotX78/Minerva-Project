@@ -37,6 +37,9 @@ agent you connect. Switch tools and it's still there.
 agents write → Foundation remembers → agents recall → context survives
 ```
 
+Start in Claude Code. Continue in Cursor. Resume later in Codex. The context is
+still there.
+
 <p align="center">
   <img src="assets/architecture.png" alt="Minerva architecture: MCP clients write facts and decisions to a local-first Foundation runtime, which stores structured and document memory and serves recall and search back to any agent." width="760"/>
 </p>
