@@ -1,8 +1,16 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-alpha.5 — 2026-06-01
 
-- No unreleased changes yet.
+- Configurable LLM backend: choose your provider (OpenAI, Anthropic, Groq,
+  Together, Mistral, OpenRouter, Gemini) or run a local model via Ollama or
+  LM Studio. No longer tied to a single provider.
+- Dashboard Settings page: view the active LLM provider/model, root entity,
+  database path, embedding model, and MCP profile.
+- Chat endpoint (`/api/chat`) — backend for the upcoming mobile companion.
+- Session list now shows the first message as the title instead of the raw
+  session ID when no custom title is set.
+- Internal hardening and code cleanup (security, robustness, module structure).
 
 ## 0.1.0-alpha.4bis — 2026-05-31
 

@@ -48,7 +48,7 @@ still there.
 
 ## Status
 
-**Current release: 0.1.0-alpha.4bis — public alpha.**
+**Current release: 0.1.0-alpha.5 — public alpha.**
 
 What is working today:
 
@@ -436,7 +436,7 @@ and configuration untouched.
 To pin a specific version:
 
 ```bash
-foundation update --version 0.1.0-alpha.4
+foundation update --version 0.1.0-alpha.5
 ```
 
 To roll back, download a previous release archive and extract it in place.
