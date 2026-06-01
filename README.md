@@ -82,8 +82,8 @@ The core is functional. Packaging and naming are still being cleaned up.
 - Decision lineage: what was decided, why, which session it came from
 - Cross-domain discovery: connections between facts you never explicitly linked
 - Minerva, a local browser dashboard to inspect your memory
-- 15 connectors: Claude Code, Cursor, Codex, OpenCode, OpenClaw, Cline,
-  Roo Code, VS Code, Windsurf, Zed, Gemini CLI, Continue, Copilot, Hermes, Pi
+- 16 connectors: Claude Code, Claude Desktop, Cursor, Codex, OpenCode, OpenClaw,
+  Cline, Roo Code, VS Code, Windsurf, Zed, Gemini CLI, Continue, Copilot, Hermes, Pi
 - Linux, macOS, Windows
 
 ---
@@ -206,7 +206,8 @@ Clients with confirmed connectors:
 
 | Client | Status |
 |---|---|
-| Claude Code | Supported |
+| Claude Code | Supported (automatic memory) |
+| Claude Desktop | Supported |
 | Cursor | Supported |
 | Codex | Supported |
 | OpenCode | Supported |
@@ -385,9 +386,9 @@ The quickest path is the built-in connector:
 foundation connect <tool>
 ```
 
-Supported connector IDs: `claude-code` · `cursor` · `codex` · `opencode` ·
-`openclaw` · `cline` · `roo-code` · `vscode` · `windsurf` · `zed` · `gemini-cli` ·
-`continue` · `copilot` · `hermes` · `pi`
+Supported connector IDs: `claude-code` · `claude-desktop` · `cursor` · `codex` ·
+`opencode` · `openclaw` · `cline` · `roo-code` · `vscode` · `windsurf` · `zed` ·
+`gemini-cli` · `continue` · `copilot` · `hermes` · `pi`
 
 Example:
 
