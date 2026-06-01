@@ -37,25 +37,9 @@ agent you connect. Switch tools and it's still there.
 agents write → Foundation remembers → agents recall → context survives
 ```
 
-```mermaid
-flowchart LR
-    CC["Claude Code"]
-    CU["Cursor"]
-    CD["Codex / OpenCode"]
-    OT["any MCP client"]
-
-    F(("Foundation\nLocal Memory"))
-
-    CC -- facts · decisions --> F
-    CU -- facts · decisions --> F
-    CD -- facts · decisions --> F
-    OT -- facts · decisions --> F
-
-    F -- recall · search --> CC
-    F -- recall · search --> CU
-    F -- recall · search --> CD
-    F -- recall · search --> OT
-```
+<p align="center">
+  <img src="assets/architecture.png" alt="Minerva architecture: MCP clients write facts and decisions to a local-first Foundation runtime, which stores structured and document memory and serves recall and search back to any agent." width="760"/>
+</p>
 
 ---
 
