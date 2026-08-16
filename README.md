@@ -360,21 +360,41 @@ Ollama) or a cloud provider's API key, your choice.
 
 ## Install
 
-Linux and macOS:
+Pick your system, open the app it names, paste the one line, press Enter.
+
+### macOS (Apple Silicon)
+
+Open **Terminal** — press `Cmd + Space`, type `Terminal`, press Enter — then
+paste this and press Enter:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.sh | bash
 ```
 
-Windows PowerShell:
+Intel Macs aren't supported yet; check the releases page for updates.
+
+### Linux (x86_64)
+
+Open your terminal, paste this, press Enter:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.sh | bash
+```
+
+### Windows
+
+Open **PowerShell** — right-click the Start button, choose "Windows
+PowerShell" or "Terminal" — then paste this and press Enter:
 
 ```powershell
 irm https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.ps1 | iex
 ```
 
-That's it — the installer starts Minerva and opens the dashboard in your
-browser automatically when it's done. No separate command to run, no address
-to go find.
+### What happens next
+
+Same on all three: the installer downloads Minerva, checks it, and finishes
+by starting it and opening the dashboard in your browser on its own. No
+second command to run, no address to go find, no app icon to hunt for.
 
 Manual install:
 
