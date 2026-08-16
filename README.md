@@ -22,39 +22,51 @@
 
 ---
 
-Every session starts cold.
+Every AI session starts cold. Switch tools, open a new window, and the
+context is gone. You explain yourself again.
 
-Switch harness, change client, open a new session — context is gone. Decisions
-disappear. The model starts over. You explain the same things again.
+Minerva is a local AI assistant you actually talk to — chat, voice, Telegram,
+Discord — built on one memory that never resets. Ask what's on your calendar,
+have it draft an email, hand something off to one of its agents. Bring up a
+decision from three weeks ago mid-sentence and it already knows what you
+mean, because it was there.
 
-Memory shouldn't belong to the tool. It should belong to you.
+Here's the part almost nobody else does: connect your coding tools to that
+same memory over MCP, and Claude Code, Cursor, and Codex pick up exactly
+where a conversation with Minerva left off — and where each other left off,
+too. Personal assistants and coding-agent memory are two separate products
+everywhere else. Minerva is one memory, both worlds.
 
-Minerva is a local memory runtime for AI agents. Facts, decisions, preferences,
-and session history stored in a SQLite database on your machine, readable by any
-agent you connect. Switch tools and it's still there.
+It all runs on your own machine. No cloud account behind it to get acquired,
+shut down, or quietly change its terms, because there isn't one.
 
 ```
-agents write → Foundation remembers → agents recall → context survives
+you talk to Minerva (chat, voice, Telegram, Discord) → Minerva remembers
+coding agents connect over MCP → they read and write the same memory
 ```
-
-Start in Claude Code. Continue in Cursor. Resume later in Codex. The context is
-still there.
 
 <p align="center">
-  <img src="assets/architecture.png" alt="Minerva architecture: MCP clients write facts and decisions to a local-first Foundation runtime, which stores structured and document memory and serves recall and search back to any agent." width="760"/>
+  <img src="assets/architecture.png" alt="Minerva architecture: chat, voice, and messaging channels plus MCP clients all write facts and decisions to a local-first runtime, which stores structured and document memory and serves recall, search, and agent actions back to any client." width="760"/>
 </p>
 
 ---
 
 ## Status
 
-**Current release: 0.1.0-alpha.5 — public alpha.**
+**Current release: 0.1.2-alpha — public alpha.**
 
 What is working today:
 
-- MCP server — running and accepting connections from supported clients
+- Minerva dashboard — chat with Minerva, manage agents, integrations, devices,
+  and channels, inspect memory, all in a local browser UI
+- Assistant chat — text and voice, plus Telegram and Discord as messaging
+  channels (WhatsApp and email are on the roadmap)
+- Agents — a roster of specialized agents (research, writing, home automation,
+  scheduling, memory) that can be delegated to from chat
+- Integrations — Google (Gmail, Calendar, Drive, Tasks, YouTube), Home
+  Assistant, and any MCP server you add
+- MCP server — running and accepting connections from supported coding clients
 - CLI (`foundation` binary) — installs and runs on Linux, macOS, and Windows
-- Minerva dashboard — memory inspection, structured search, workflow traces, write and edit
 - Remote access — reachable from another machine over a private network or VPN
 
 The core is functional. Packaging and naming are still being cleaned up.
@@ -63,32 +75,32 @@ The core is functional. Packaging and naming are still being cleaned up.
 
 ## Already running
 
-- SQLite + vec0 on disk, no server, no cloud, no external dependency
-- MCP over stdio — any client connects in minutes
+- SQLite + vec0 on disk, no cloud, no subscription, no external dependency
+- A local dashboard you actually use day to day, chat included
+- MCP over stdio for coding tools — any MCP client connects in minutes
 - Hybrid search: full-text (BM25) + semantic (vec0) in one query
 - Decision lineage: what was decided, why, which session it came from
 - Cross-domain discovery: connections between facts you never explicitly linked
-- Minerva, a local browser dashboard to inspect your memory
-- 19 connectors: Claude Code, Claude Desktop, Cursor, Codex, OpenCode, OpenClaw,
-  Cline, Roo Code, VS Code, Windsurf, Zed, Gemini CLI, Continue, Copilot, Hermes,
-  Pi, Amazon Q, JetBrains (Junie), Goose
+- A roster of agents you can talk to or delegate work to
+- Messaging channels: talk to Minerva from Telegram or Discord, not just the browser
+- 19 connectors for coding tools: Claude Code, Claude Desktop, Cursor, Codex,
+  OpenCode, OpenClaw, Cline, Roo Code, VS Code, Windsurf, Zed, Gemini CLI,
+  Continue, Copilot, Hermes, Pi, Amazon Q, JetBrains (Junie), Goose
 - Linux, macOS, Windows
 
 ---
 
 ## What Minerva is
 
-A memory layer for AI agents, not a note-taking tool.
+A local-first personal AI assistant, built around a memory layer that never
+resets.
 
-It is not designed for a human to browse or organize manually. The interface
-exists for inspection and operational control.
-
-There is no cloud backend, no subscription, no remote storage. Everything lives
-on your machine.
-
-It does not relay messages between agents or coordinate conversations. It stores
-memory that agents can read and write. That is a separate layer from messaging
-or orchestration.
+You talk to it. It decides what's worth remembering, on its own — no folders
+to file things into, no tags to maintain. The database, the dashboard, the
+agents, all of it lives on your machine, not a vendor's cloud. That's not a
+privacy footnote, it's the whole design: a company can raise a round, get
+acquired, or shut down a product line. Your own hard drive doesn't do any
+of that to you.
 
 ---
 
@@ -99,8 +111,8 @@ or orchestration.
 The fast path.
 
 Decisions, insights, preferences, project facts, relations between entities,
-session continuity. This is what lets an agent resume work without rebuilding
-context from scratch.
+session continuity. This is what lets Minerva — or any agent connected to
+it — resume work without rebuilding context from scratch.
 
 ### Document memory
 
@@ -115,40 +127,48 @@ actually requires it.
 
 ---
 
-## Beyond memory: intent, tasks, and coordination
+## Beyond memory: agents, tasks, and coordination
 
 Minerva also tracks:
 
+- an agent roster: specialized agents you can talk to directly or that Minerva
+  delegates to on your behalf
 - intent registry: what an agent was trying to do, not just what it stored
 - task coordination: structured task state that persists across sessions and clients
 - workflow traces: a record of what happened, when, and in what sequence
 
-An agent using Minerva can reconstruct the shape of previous work: what was in
-progress, what was decided, what was abandoned and why.
-
-The Minerva dashboard exposes all of this directly.
+Minerva can reconstruct the shape of previous work: what was in progress, what
+was decided, what was abandoned and why — whether that work happened in a chat
+with Minerva or in a coding session connected over MCP.
 
 ---
 
 ## Minerva dashboard
 
-The operational interface for the running system. Not for daily work — for
-inspection and control.
+This is where you actually live day to day: talk to Minerva, see what it's
+connected to, and check under the hood when you're curious.
 
 What it shows today:
 
-- Memory state: entities, facts, relations in structured memory
-- Decisions: open decisions with verify / dispute / close actions
-- Document index: what is in the document layer and is searchable
-- Workflow traces: history of agent operations, sessions, and task sequences
-- Search: structured search across the full memory graph
-- Diagnostics: system health, index consistency, memory counts
+- **Chat** — talk to Minerva directly, by voice or text, with full history
+- **Agents** — the roster of specialized agents, what each one does, and what
+  they're working on right now
+- **Integrations** — Google Workspace, Home Assistant, and MCP servers you've
+  connected
+- **Devices & Channels** — pair a phone or another device with a QR code, and
+  connect Telegram or Discord as a way to reach Minerva
+- **Calendar, Tasks, Documents, Automations** — the everyday surfaces of a
+  personal assistant
+- **Memory** — entities, facts, relations in structured memory, full-text and
+  semantic search
+- **Decisions** — open decisions with verify / dispute / close actions
+- **Diagnostics** — system health, index consistency, memory counts
 
 What you can do:
 
-- inspect and navigate stored memory
-- search across structured and document memory
-- write and edit memory entries directly
+- talk to Minerva and delegate work to its agents
+- connect integrations and messaging channels without touching a config file
+- inspect and search stored memory directly
 - review and close open decisions
 - monitor system health and index status
 
@@ -156,21 +176,25 @@ What you can do:
 
 ## Screenshots
 
-**Overview** — everything Minerva knows at a glance: entity and fact counts, open decisions, recent sessions, and health status.
+**Overview** — a voice-first home screen: today's calendar, agents currently
+at work, and a mic to just talk to Minerva.
 
-![Overview](assets/screenshots/overview.png)
+![Overview](assets/screenshots/overview.jpg)
 
-**Memory** — full-text and semantic search across structured memory, with fact detail and filtering by type, importance, and verification status.
+**Agents** — the roster of specialized agents Minerva can delegate to, each
+with its own role.
 
-![Memory](assets/screenshots/memory.png)
+![Agents](assets/screenshots/agents.jpg)
 
-**Decisions** — review open decisions, verify or dispute each one, close what is settled.
+**Integrations** — MCP servers and external tools connected to Minerva, with
+per-server tool visibility.
 
-![Decisions](assets/screenshots/decisions.png)
+![Integrations](assets/screenshots/tools.jpg)
 
-**Diagnostics** — runtime health, memory counts, and index consistency for vector and full-text search.
+**Devices & Channels** — pair a new device with a QR code (no terminal
+required), and connect Telegram or Discord to talk to Minerva from there.
 
-![Diagnostics](assets/screenshots/diagnostics.png)
+![Devices & Channels](assets/screenshots/devices-channels.jpg)
 
 ---
 
@@ -188,7 +212,8 @@ Expect `foundation` in all commands for now.
 
 ## Supported clients
 
-Minerva exposes a standard MCP server. Any client that speaks MCP can connect.
+Beyond its own chat, Minerva exposes a standard MCP server for coding tools.
+Any client that speaks MCP can connect and share the same memory.
 
 Clients with confirmed connectors:
 
@@ -289,12 +314,14 @@ same: nothing durable from a working session is lost when the session closes.
 
 ## Local-first, not only localhost
 
-Your data lives on your machine, under your control.
+Your data lives on your machine, under your control. Minerva runs as a local
+service — the dashboard, the assistant, and the MCP server are all one process
+on your box, not a call to someone else's API.
 
-But local-first does not mean the server is locked to localhost. Minerva can be
-reached from another machine on the same private network or over a VPN or
-Tailnet. Useful when your development machine is remote and your editor needs
-to reach the same memory server.
+Local-first does not mean locked to localhost, though. Minerva can be reached
+from another machine on the same private network or over a VPN or Tailnet.
+Useful when you want to talk to Minerva from your phone, or your editor needs
+to reach the same memory server from a different machine.
 
 Minerva does not expose a raw public endpoint. If you route it over a private
 network or Tailscale, that is your call. The default is local.
@@ -325,7 +352,9 @@ Supported platforms:
 
 Linux aarch64 and broader coverage are planned in later releases.
 
-The binary bundle is self-contained. No external runtime dependencies.
+The binary bundle is self-contained — no Docker, no separate runtime to
+install. Chat and agents need an LLM: point Minerva at a local model (e.g.
+Ollama) or a cloud provider's API key, your choice.
 
 ---
 
@@ -396,10 +425,16 @@ manually.
 
 ## Usage examples
 
+### Talking to Minerva directly
+
+Open the dashboard, or message the bot on Telegram or Discord once it's
+paired. Ask it to check your calendar, draft an email, or just talk through
+what you're working on. It remembers the conversation the next time you open it.
+
 ### Memory across sessions with Claude Code
 
-Start a session, work on a project. Minerva records decisions, preferences, and
-facts as you go. Close Claude Code. Open it again tomorrow.
+Start a coding session, work on a project. Minerva records decisions,
+preferences, and facts as you go. Close Claude Code. Open it again tomorrow.
 
 The model picks up context from where it left off: what you decided, what the
 project state was, what changed. No manual context-pasting.
@@ -436,7 +471,7 @@ and configuration untouched.
 To pin a specific version:
 
 ```bash
-foundation update --version 0.1.0-alpha.5
+foundation update --version 0.1.2-alpha
 ```
 
 To roll back, download a previous release archive and extract it in place.
