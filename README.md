@@ -372,6 +372,10 @@ Windows PowerShell:
 irm https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.ps1 | iex
 ```
 
+That's it — the installer starts Minerva and opens the dashboard in your
+browser automatically when it's done. No separate command to run, no address
+to go find.
+
 Manual install:
 
 1. Download the right archive from the latest release.

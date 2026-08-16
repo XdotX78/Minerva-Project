@@ -48,13 +48,47 @@ try {
     foreach ($bin in $bins) {
         $src = Join-Path $TempDir $bin
         if (Test-Path $src) {
-            Copy-Item $src (Join-Path $InstallDir $bin) -Force
+            $dst = Join-Path $InstallDir $bin
+            Copy-Item $src $dst -Force
+            # Files downloaded via Invoke-WebRequest carry a "mark of the web"
+            # tag that can make Windows SmartScreen block an unsigned alpha
+            # .exe from running, with no clear error -- looks like nothing
+            # got installed.
+            Unblock-File -Path $dst -ErrorAction SilentlyContinue
         }
     }
 
     Write-Host "Installed Minerva alpha binaries to $InstallDir"
-    Write-Host "Current command name: foundation"
-    Write-Host "Next step: run 'foundation --version' or 'foundation doctor'"
+
+    # $HOME\.local\bin is not on PATH by default -- the binaries are really
+    # there, but a fresh terminal can't find them, which looks identical to
+    # "the installer didn't install anything."
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    $pathEntries = @()
+    if ($userPath) { $pathEntries = $userPath -split ";" | Where-Object { $_ -ne "" } }
+    if ($pathEntries -notcontains $InstallDir) {
+        $newUserPath = if ($userPath) { "$userPath;$InstallDir" } else { $InstallDir }
+        [Environment]::SetEnvironmentVariable("Path", $newUserPath, "User")
+        $env:Path = "$env:Path;$InstallDir"
+        Write-Host "$InstallDir was not on your PATH -- added it (a new terminal picks it up)."
+    }
+
+    # The whole point: an install that ends with a running dashboard already
+    # open in the browser, not a binary sitting in a folder and an address
+    # the user has to go find themselves.
+    Write-Host ""
+    Write-Host "Starting Minerva..."
+    $foundationExe = Join-Path $InstallDir "foundation.exe"
+    & $foundationExe dashboard
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "Minerva is running. The dashboard should have opened in your browser."
+    } else {
+        Write-Host ""
+        Write-Host "Couldn't start it automatically. Run this yourself:"
+        Write-Host ""
+        Write-Host "  $foundationExe dashboard"
+        Write-Host ""
+    }
 }
 finally {
     Remove-Item -Recurse -Force $TempDir -ErrorAction SilentlyContinue

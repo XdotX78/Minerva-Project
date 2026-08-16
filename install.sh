@@ -48,9 +48,55 @@ tar -xzf "$archive_path" -C "$TMP_DIR"
 for bin in foundation foundation-capture foundation-summarize foundation-import foundation-review foundation-discover foundation-recover foundation-snapshot foundation-session-queue foundation-synthesize foundation-trigger foundation-migrate; do
   if [[ -f "$TMP_DIR/$bin" ]]; then
     install -m 755 "$TMP_DIR/$bin" "$INSTALL_DIR/$bin"
+    # macOS quarantines anything extracted from a curl'd download; an
+    # unsigned/unnotarized alpha binary can get silently blocked from the
+    # terminal otherwise, with no clear error -- looks like "nothing happened."
+    if [[ "$platform" == "Darwin" ]]; then
+      xattr -d com.apple.quarantine "$INSTALL_DIR/$bin" 2>/dev/null || true
+    fi
   fi
 done
 
 echo "Installed Minerva alpha binaries to $INSTALL_DIR"
-echo "Current command name: foundation"
-echo "Next step: run 'foundation --version' or 'foundation doctor'"
+
+# $HOME/.local/bin is not on PATH by default on a fresh macOS or Linux
+# machine -- the binaries are really there, but the shell can't find
+# them, which looks identical to "the installer didn't install anything."
+if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
+  shell_name="$(basename "${SHELL:-bash}")"
+  case "$shell_name" in
+    zsh) rc_file="$HOME/.zshrc" ;;
+    bash) rc_file="$HOME/.bashrc" ;;
+    *) rc_file="$HOME/.profile" ;;
+  esac
+  export_line="export PATH=\"$INSTALL_DIR:\$PATH\""
+  if [[ ! -f "$rc_file" ]] || ! grep -qF "$export_line" "$rc_file" 2>/dev/null; then
+    printf '\n# added by the Minerva installer\n%s\n' "$export_line" >> "$rc_file"
+  fi
+  echo "$INSTALL_DIR was not on your PATH -- added it to $rc_file (a new terminal picks it up)."
+  export PATH="$INSTALL_DIR:$PATH"
+fi
+
+foundation_bin="$INSTALL_DIR/foundation"
+
+# Unlike Windows/macOS, `foundation start` on Linux expects the systemd
+# --user unit to already exist -- it doesn't write it on first start the way
+# the other two platforms self-bootstrap their service. Safe to repeat.
+if [[ "$platform" == "Linux" ]]; then
+  "$foundation_bin" service install-user >/dev/null 2>&1 || true
+fi
+
+# The whole point: an install that ends with a running dashboard already
+# open in the browser, not a binary sitting in a folder and an address the
+# user has to go find themselves.
+echo ""
+echo "Starting Minerva..."
+if "$foundation_bin" dashboard; then
+  echo "Minerva is running. The dashboard should have opened in your browser."
+else
+  echo ""
+  echo "Couldn't start it automatically. Run this yourself:"
+  echo ""
+  echo "  $foundation_bin dashboard"
+  echo ""
+fi
