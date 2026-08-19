@@ -95,7 +95,7 @@ export, nothing running on a server you don't control.
 
 We're currently looking for a small group of early testers. If you want to
 try Minerva, break things, and tell us what sucks, [start a
-discussion](../../discussions) or [open an issue](../../issues).
+discussion](https://github.com/XdotX78/Minerva-Project/discussions) or [open an issue](https://github.com/XdotX78/Minerva-Project/issues).
 
 What is working today:
 
@@ -112,7 +112,7 @@ What is working today:
 - Remote access — reachable from another machine over a private network or VPN
 
 The core is functional. Packaging and naming are still being cleaned up.
-[Open an issue](../../issues) if something breaks.
+[Open an issue](https://github.com/XdotX78/Minerva-Project/issues) if something breaks.
 
 ---
 
