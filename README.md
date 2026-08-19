@@ -167,7 +167,7 @@ paste this and press Enter:
 curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.sh | bash
 ```
 
-Intel Macs aren't supported yet; check the releases page for updates.
+Intel Macs aren't supported yet; check the [releases page](https://github.com/XdotX78/Minerva-Project/releases) for updates.
 
 ### Linux (x86_64)
 
@@ -194,13 +194,13 @@ second command to run, no address to go find, no app icon to hunt for.
 
 Manual install:
 
-1. Download the right archive from the latest release.
+1. Download the right archive from the [latest release](https://github.com/XdotX78/Minerva-Project/releases/latest).
 2. Extract it.
 3. Move the `foundation` binary and bundled sidecars somewhere stable.
-4. Follow the release notes for client setup.
+4. Follow the [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest) for client setup.
 
-The rollout is staged. Check the release notes to confirm which platform assets
-are published before relying on the installer.
+The rollout is staged. Check the [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest)
+to confirm which platform assets are published before relying on the installer.
 
 ---
 
@@ -210,7 +210,7 @@ Each public release includes:
 
 - platform archives
 - `SHA256SUMS`
-- short release notes
+- short [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest)
 
 ```bash
 sha256sum -c SHA256SUMS
@@ -244,8 +244,8 @@ foundation update
 foundation restart
 ```
 
-This downloads the latest release, replaces the binary, and leaves your database
-and configuration untouched.
+This downloads the [latest release](https://github.com/XdotX78/Minerva-Project/releases/latest),
+replaces the binary, and leaves your database and configuration untouched.
 
 To pin a specific version:
 
@@ -253,7 +253,7 @@ To pin a specific version:
 foundation update --version 0.1.3-alpha
 ```
 
-To roll back, download a previous release archive and extract it in place.
+To roll back, download a [previous release](https://github.com/XdotX78/Minerva-Project/releases) archive and extract it in place.
 
 For a fresh machine or a broken install, re-run the full installer:
 
@@ -269,7 +269,7 @@ Remove the `foundation` binary and bundled sidecar components. The data
 directory is separate — removing it is optional and will delete your stored
 memory.
 
-Check the release notes for the exact paths for your platform.
+Check the [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest) for the exact paths for your platform.
 
 ---
 
