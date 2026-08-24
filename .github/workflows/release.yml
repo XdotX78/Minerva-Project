@@ -280,6 +280,12 @@ jobs:
       # FOUNDATION_CHECKOUT_TOKEN in this job at all.
       contents: write
       actions: write
+    env:
+      # This job never checks out a git repo (only downloads artifacts), so
+      # `gh` has no .git to infer the target repo from -- without this it
+      # fails every `gh release`/`gh api` call with "not a git repository".
+      # Found live 2026-08-24: the first real test run failed here.
+      GH_REPO: ${{ github.repository }}
     steps:
       - name: Download packaged assets
         uses: actions/download-artifact@v8
