@@ -1,0 +1,346 @@
+name: Release
+
+# Builds and publishes a Foundation release from here (public, free/unmetered
+# Actions minutes) instead of from the private FOUNDATION repo (billed once
+# its included minutes run out) -- the release destination was ALREADY this
+# repo (foundation update downloads from github.com/XdotX78/Minerva-Project,
+# see crates/cli/src/release_channel.rs), only the build's own location was
+# in the wrong place. Checks out FOUNDATION's private source with a
+# fine-grained, read-only, Foundation-scoped PAT; billing follows the repo
+# that OWNS the workflow run, not the repos it happens to read from.
+#
+# workflow_dispatch ONLY, deliberately -- never pull_request/pull_request_target
+# on this file. Those trigger on external forks' PRs and would run with this
+# repo's secrets attached, including the private-repo checkout token. GitHub
+# already restricts who can invoke workflow_dispatch to accounts with write
+# access to this repo, which today is only Francesco.
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Public release tag, e.g. 0.1.0-alpha.2"
+        required: true
+        type: string
+
+jobs:
+  test:
+    name: Test & lint (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    env:
+      RUST_BACKTRACE: 1
+    steps:
+      - name: Free disk space (Linux runner)
+        if: runner.os == 'Linux'
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup
+          df -h /
+
+      - name: Checkout Foundation (private source)
+        uses: actions/checkout@v6
+        with:
+          repository: XdotX78/FOUNDATION
+          token: ${{ secrets.FOUNDATION_CHECKOUT_TOKEN }}
+          path: foundation
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "foundation -> foundation/target"
+
+      - name: Install libdbus (Linux keyring backend)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libdbus-1-dev pkg-config
+
+      - name: Set up gnome-keyring (Linux headless Secret Service)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y gnome-keyring dbus-x11
+          eval "$(dbus-launch --sh-syntax)"
+          echo "DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS" >> "$GITHUB_ENV"
+          gnome-keyring-daemon --components=secrets --daemonize --unlock <<< 'foobar'
+
+      - name: Test
+        working-directory: foundation
+        run: >
+          cargo test --locked
+          -p foundation-store
+          -p foundation-core
+          -p foundation-mcp
+          -p foundation-runtime
+          -p foundation-client
+
+      - name: Clippy (deny warnings)
+        working-directory: foundation
+        run: >
+          cargo clippy --locked
+          -p foundation-store
+          -p foundation-core
+          -p foundation-mcp
+          -p foundation-runtime
+          -p foundation-client
+          -- -D warnings
+
+  dashboard-test:
+    name: Dashboard tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Foundation (private source)
+        uses: actions/checkout@v6
+        with:
+          repository: XdotX78/FOUNDATION
+          token: ${{ secrets.FOUNDATION_CHECKOUT_TOKEN }}
+          path: foundation
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - working-directory: foundation/apps/minerva-dashboard
+        run: npm ci
+      - working-directory: foundation/apps/minerva-dashboard
+        run: npm test
+
+  build:
+    needs: [test, dashboard-test]
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            asset: minerva-linux-x86_64.tar.gz
+            archive: tar.gz
+            target_dir: target/release
+            exe_suffix: ""
+          - os: macos-latest
+            asset: minerva-macos-aarch64.tar.gz
+            archive: tar.gz
+            target_dir: target/release
+            exe_suffix: ""
+          - os: windows-latest
+            asset: minerva-windows-x86_64.zip
+            archive: zip
+            target_dir: target/release
+            exe_suffix: .exe
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Free disk space (Linux runner)
+        if: runner.os == 'Linux'
+        run: |
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup
+          df -h /
+
+      - name: Checkout Foundation (private source)
+        uses: actions/checkout@v6
+        with:
+          repository: XdotX78/FOUNDATION
+          token: ${{ secrets.FOUNDATION_CHECKOUT_TOKEN }}
+          path: foundation
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo registry + target
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "foundation -> foundation/target"
+
+      - name: Install libdbus (Linux keyring backend)
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install -y libdbus-1-dev pkg-config
+
+      - name: Build Minerva dashboard
+        shell: bash
+        working-directory: foundation/apps/minerva-dashboard
+        run: |
+          npm ci
+          npm run build
+
+      - name: Build release binaries
+        working-directory: foundation
+        env:
+          FOUNDATION_RELEASE_VERSION: ${{ inputs.version }}
+          # Optional -- the shared Google OAuth client baked into official
+          # releases (see crates/core/src/google_token.rs). Without them the
+          # build still succeeds; Google features fall back to the
+          # per-deployment Settings > API Keys path, same as a local/source
+          # build. Only worth adding to THIS repo's secrets if feature parity
+          # with the old Foundation-hosted release matters.
+          FOUNDATION_GOOGLE_CLIENT_ID: ${{ secrets.FOUNDATION_GOOGLE_CLIENT_ID }}
+          FOUNDATION_GOOGLE_CLIENT_SECRET: ${{ secrets.FOUNDATION_GOOGLE_CLIENT_SECRET }}
+        run: cargo build --release --workspace --bins
+
+      - name: Package release asset
+        if: runner.os != 'Windows'
+        shell: bash
+        working-directory: foundation
+        run: |
+          chmod +x scripts/package-release.sh
+          scripts/package-release.sh "${{ matrix.target_dir }}" "${{ matrix.asset }}" "${{ matrix.archive }}" "${{ matrix.exe_suffix }}"
+
+      - name: Package Windows release asset
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: foundation
+        run: |
+          $bins = @(
+            "foundation.exe",
+            "foundation-capture.exe",
+            "foundation-summarize.exe",
+            "foundation-import.exe",
+            "foundation-review.exe",
+            "foundation-discover.exe",
+            "foundation-recover.exe",
+            "foundation-snapshot.exe",
+            "foundation-session-queue.exe",
+            "foundation-synthesize.exe",
+            "foundation-trigger.exe",
+            "foundation-migrate.exe"
+          )
+          $stage = Join-Path $env:RUNNER_TEMP "minerva-release"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          foreach ($bin in $bins) {
+            Copy-Item (Join-Path "target/release" $bin) (Join-Path $stage $bin)
+          }
+          Copy-Item "install.sh" (Join-Path $stage "install.sh")
+          Copy-Item "install.ps1" (Join-Path $stage "install.ps1")
+          Copy-Item "LICENSE.md" (Join-Path $stage "LICENSE.txt")
+          if (Test-Path "README.md") { Copy-Item "README.md" (Join-Path $stage "README.txt") }
+          New-Item -ItemType Directory -Force -Path (Join-Path $stage "apps/minerva-dashboard") | Out-Null
+          Copy-Item "apps/minerva-dashboard/dist" (Join-Path $stage "apps/minerva-dashboard/dist") -Recurse
+          Compress-Archive -Path (Join-Path $stage '*') -DestinationPath "${{ matrix.asset }}" -Force
+          "STAGE_DIR=$stage" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Install NSIS
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: choco install nsis -y --no-progress
+
+      - name: Build Windows Setup .exe (NSIS)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        working-directory: foundation
+        run: |
+          $version = "${{ inputs.version }}"
+          if ($version -match '^(\d+)\.(\d+)\.(\d+)') {
+            $numeric = "$($matches[1]).$($matches[2]).$($matches[3]).0"
+          } else {
+            $numeric = "0.0.0.0"
+          }
+          $nsiPath  = Join-Path $env:GITHUB_WORKSPACE "foundation\installer\windows\foundation.nsi"
+          $outFile  = "Setup-Foundation-$version.exe"
+          $env:PATH = "$env:PATH;C:\Program Files (x86)\NSIS"
+          & makensis `
+              /DSTAGE_DIR="$env:STAGE_DIR" `
+              /DFOUNDATION_VERSION="$version" `
+              /DFOUNDATION_VERSION_NUMERIC="$numeric" `
+              $nsiPath
+          if ($LASTEXITCODE -ne 0) { throw "makensis failed with exit code $LASTEXITCODE" }
+          Move-Item (Join-Path (Split-Path $nsiPath) $outFile) $outFile
+          Write-Output "Built: $outFile"
+          Get-ChildItem $outFile | Select-Object Name, @{N='SizeMB';E={[math]::Round($_.Length/1MB,2)}}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.asset }}
+          # scripts/package-release.sh and the two Windows PowerShell steps
+          # above all run with working-directory: foundation (their own
+          # internal relative lookups -- target/release, install.sh, apps/ --
+          # only resolve correctly from Foundation's own repo root), so the
+          # asset they produce lands inside foundation/, not this job's own
+          # workspace root.
+          path: foundation/${{ matrix.asset }}
+          retention-days: 1
+
+      - name: Upload Windows Setup artifact
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v7
+        with:
+          name: Setup-Foundation-${{ inputs.version }}.exe
+          path: foundation/Setup-Foundation-${{ inputs.version }}.exe
+          retention-days: 1
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      # This job needs no checkout of Foundation -- it only handles this
+      # repo's own release, so contents:write on THIS repo (the default for
+      # workflow_dispatch on a repo you own) is all that's needed. No
+      # FOUNDATION_CHECKOUT_TOKEN in this job at all.
+      contents: write
+      actions: write
+    steps:
+      - name: Download packaged assets
+        uses: actions/download-artifact@v8
+        with:
+          path: dist
+
+      - name: Flatten assets
+        shell: bash
+        run: |
+          mkdir -p release
+          find dist -type f \( -name "*.tar.gz" -o -name "*.zip" -o -name "*.exe" \) \
+            -exec cp {} release/ \;
+          ls -la release/
+
+      - name: Generate latest.json (read by /api/app/check-update)
+        shell: bash
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          cd release
+          jq -n --arg version "$VERSION" --arg notes "Minerva $VERSION" \
+                '{version: $version, notes: $notes}' \
+                > latest.json
+          echo "=== latest.json ==="
+          cat latest.json
+          sha256sum * > SHA256SUMS
+
+      - name: Ensure release exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        shell: bash
+        run: |
+          if gh release view "$VERSION" >/dev/null 2>&1; then
+            echo "Release $VERSION already exists"
+          else
+            gh release create "$VERSION" \
+              --title "Release $VERSION" \
+              --notes "Release $VERSION"
+          fi
+
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ inputs.version }}
+        shell: bash
+        run: |
+          gh release upload "$VERSION" release/* --clobber
+
+      # Same storage-quota hygiene as the old Foundation-hosted workflow --
+      # expired artifacts can sit for weeks without being purged.
+      - name: Delete this run's build artifacts (storage quota hygiene)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+        shell: bash
+        run: |
+          ids=$(gh api "repos/$REPO/actions/runs/$RUN_ID/artifacts" --paginate -q '.artifacts[].id')
+          for id in $ids; do
+            echo "deleting artifact $id"
+            gh api -X DELETE "repos/$REPO/actions/artifacts/$id" || true
+          done
