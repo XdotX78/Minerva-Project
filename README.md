@@ -257,7 +257,7 @@ replaces the binary, and leaves your database and configuration untouched.
 To pin a specific version:
 
 ```bash
-foundation update --version 0.1.3-alpha
+foundation update --version 0.1.5-alpha
 ```
 
 To roll back, download a [previous release](https://github.com/XdotX78/Minerva-Project/releases) archive and extract it in place.
