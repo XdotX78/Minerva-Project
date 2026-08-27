@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <a href="#install">Install</a> ·
+  <a href="#download">Download</a> ·
   <a href="#connect-a-client">Connect</a> ·
   <a href="#upgrade">Upgrade</a> ·
   <a href="#screenshots">Screenshots</a> ·
@@ -38,7 +38,7 @@ Minerva itself doesn't require a cloud account. Your data, memory, and
 orchestration live on your machine. Use a local model or bring your own
 cloud API key.
 
-[**Install Alpha**](#install) · [**See how it works ↓**](#screenshots)
+[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/latest) · [**See how it works ↓**](#screenshots)
 
 ---
 
@@ -91,7 +91,7 @@ export, nothing running on a server you don't control.
 
 ## Status
 
-**Current release: 0.1.3-alpha — early testing.**
+**Current channel: alpha — early testing.**
 
 We're currently looking for a small group of early testers. If you want to
 try Minerva, break things, and tell us what sucks, [start a
@@ -130,11 +130,8 @@ hands-off memory through native lifecycle hooks.
 
 The public project name is Minerva.
 
-The current CLI command is `foundation`. This is a temporary gap while naming
-and packaging are being cleaned up. When you install and run the system, you
-will be calling `foundation` at the terminal. That is the right binary.
-
-Expect `foundation` in all commands for now.
+The internal CLI command is still `foundation`. Windows users do not need to
+use it: the installer and Start menu entry are named Minerva.
 
 ---
 
@@ -154,7 +151,22 @@ Ollama) or a cloud provider's API key, your choice.
 
 ---
 
-## Install
+## Download
+
+### Windows 10/11 (x64)
+
+[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/latest)
+
+1. Open the latest Release.
+2. Download `Minerva-Setup-Windows-x64-<version>.exe`.
+3. Run the installer.
+4. Open **Minerva** from the Start menu.
+
+No terminal, Rust, Node, Git, WebView2, or administrator access is required.
+Alpha installers may be unsigned; when they are, Windows SmartScreen can show
+a warning. Check the release notes before continuing.
+
+## Other platforms
 
 Pick your system, open the app it names, paste the one line, press Enter.
 
@@ -177,20 +189,11 @@ Open your terminal, paste this, press Enter:
 curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.sh | bash
 ```
 
-### Windows
-
-Open **PowerShell** — right-click the Start button, choose "Windows
-PowerShell" or "Terminal" — then paste this and press Enter:
-
-```powershell
-irm https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.ps1 | iex
-```
-
 ### What happens next
 
-Same on all three: the installer downloads Minerva, checks it, and finishes
-by starting it and opening the dashboard in your browser on its own. No
-second command to run, no address to go find, no app icon to hunt for.
+On Windows, the installer creates the Start menu entry and starts Minerva. The
+dashboard opens in your browser. On macOS and Linux, the install script performs
+the equivalent setup.
 
 Manual install:
 
@@ -208,8 +211,9 @@ to confirm which platform assets are published before relying on the installer.
 
 Each public release includes:
 
-- platform archives
+- `Minerva-Setup-Windows-x64-<version>.exe`
 - `SHA256SUMS`
+- `build-manifest.json`
 - short [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest)
 
 ```bash
@@ -237,7 +241,10 @@ Full connector ID list and per-client notes: [docs/clients.md](docs/clients.md).
 
 ## Upgrade
 
-If you already have Minerva installed, use the built-in update command:
+On Windows, download and run the newer installer. It replaces application files
+without deleting the separate data, configuration, vault, or logs.
+
+Advanced CLI users can also use:
 
 ```bash
 foundation update
@@ -255,7 +262,7 @@ foundation update --version 0.1.3-alpha
 
 To roll back, download a [previous release](https://github.com/XdotX78/Minerva-Project/releases) archive and extract it in place.
 
-For a fresh machine or a broken install, re-run the full installer:
+For a fresh macOS or Linux machine, re-run the install script:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.sh | bash
@@ -265,9 +272,12 @@ curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/instal
 
 ## Uninstall
 
-Remove the `foundation` binary and bundled sidecar components. The data
-directory is separate — removing it is optional and will delete your stored
-memory.
+On Windows, uninstall **Minerva** from Installed apps. Application files and the
+Start menu shortcut are removed; the separate data, configuration, vault, and
+logs are preserved.
+
+On macOS and Linux, remove the `foundation` binary and bundled sidecars. The
+data directory remains separate.
 
 Check the [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest) for the exact paths for your platform.
 
