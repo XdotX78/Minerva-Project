@@ -209,12 +209,12 @@ to confirm which platform assets are published before relying on the installer.
 
 ## Verify downloads
 
-Each public release includes:
+The current Windows prerelease includes:
 
 - `Minerva-Setup-Windows-x64-<version>.exe`
 - `SHA256SUMS`
 - `build-manifest.json`
-- short [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest)
+- short [release notes](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha)
 
 ```bash
 sha256sum -c SHA256SUMS
