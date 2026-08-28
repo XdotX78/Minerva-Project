@@ -38,7 +38,7 @@ Minerva itself doesn't require a cloud account. Your data, memory, and
 orchestration live on your machine. Use a local model or bring your own
 cloud API key.
 
-[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/latest) · [**See how it works ↓**](#screenshots)
+[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha) · [**See how it works ↓**](#screenshots)
 
 ---
 
@@ -155,9 +155,9 @@ Ollama) or a cloud provider's API key, your choice.
 
 ### Windows 10/11 (x64)
 
-[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/latest)
+[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha)
 
-1. Open the latest Release.
+1. Open the release page.
 2. Download `Minerva-Setup-Windows-x64-<version>.exe`.
 3. Run the installer.
 4. Open **Minerva** from the Start menu.
