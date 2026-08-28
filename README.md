@@ -7,38 +7,63 @@
 <p align="center">
   <img src="https://img.shields.io/badge/status-alpha-orange" alt="alpha"/>
   <img src="https://img.shields.io/badge/platform-linux%20%7C%20macos%20%7C%20windows-blue" alt="platform"/>
-  <img src="https://img.shields.io/badge/protocol-MCP-6f42c1" alt="MCP"/>
-  <img src="https://img.shields.io/badge/built%20with-Rust-orange?logo=rust&logoColor=white" alt="Rust"/>
   <img src="https://img.shields.io/badge/license-source--available-lightgrey" alt="source-available"/>
 </p>
 
 <p align="center">
-  <a href="#download">Download</a> ·
-  <a href="#connect-a-client">Connect</a> ·
-  <a href="#upgrade">Upgrade</a> ·
+  <a href="#for-your-life-for-your-work">For you</a> ·
+  <a href="#examples">Examples</a> ·
   <a href="#screenshots">Screenshots</a> ·
+  <a href="#download-and-install">Download</a> ·
   <a href="#learn-more">Docs</a>
 </p>
 
 ---
 
-**Minerva is a local-first AI system that remembers you, connects to your
-tools, and gets things done through specialized agents.**
+**One private AI for your life and work — with a memory that stays yours.**
 
-Talk to it by voice, text, Telegram, or Discord. Connect Gmail, Calendar,
-Drive, Home Assistant, and anything that speaks MCP. Hand off research,
-writing, or scheduling to one of its agents.
+Minerva remembers what matters, works with your calendar, email, documents,
+and home, and can hand off longer jobs to specialized agents. It runs on
+your own computer, and you choose which AI models and services it uses.
 
-Ask what's on your calendar. It checks, pulls the right context from memory,
-and drafts a briefing. Ask it to dig into something. An agent picks it up and
-works in the background while you do something else. Come back next week —
-it still knows what you told it.
+[**Get Minerva for Windows**](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha) · [**See how it works ↓**](#screenshots)
 
-Minerva itself doesn't require a cloud account. Your data, memory, and
-orchestration live on your machine. Use a local model or bring your own
-cloud API key.
+---
 
-[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha) · [**See how it works ↓**](#screenshots)
+## For your life, for your work
+
+**For your life**
+
+- Remembers people, plans, and things you've told it before
+- Keeps track of your calendar and commitments
+- Connects to Home Assistant so it can help around the house
+- Keeps the same memory even if you switch to a different AI model
+
+**For your work**
+
+- Reads and helps with email, documents, and the tools you already use
+- Prepares briefings, does research, and follows up on open items
+- Hands off longer tasks to specialized agents while you do something else
+- Shares one memory with compatible AI and coding tools, instead of
+  starting over in each one
+
+---
+
+## Examples
+
+- **Calendar and briefings** — ask what's on your calendar, and Minerva
+  checks it, pulls the relevant context from memory, and drafts a quick
+  briefing.
+- **Remembering things** — tell Minerva something once, like a decision or
+  a plan, and it can bring it back up later without you repeating yourself.
+- **Research in the background** — hand a research topic to an agent. It
+  works in the background while you do something else, and reports back
+  when it's done.
+- **Around the house** — connect Home Assistant, and ask Minerva what's
+  happening at home in plain language.
+- **One memory, several tools** — the memory Minerva builds in chat is also
+  available to compatible AI and coding tools, like Claude Code, Cursor,
+  and Codex, so you don't have to explain the same context twice.
 
 ---
 
@@ -54,8 +79,9 @@ with its own role.
 
 ![Agents](assets/screenshots/agents.jpg)
 
-**Integrations** — MCP servers and external tools connected to Minerva, with
-per-server tool visibility.
+**Integrations** — the outside tools and services Minerva connects to,
+including support for MCP (a shared standard that lets AI tools connect to
+the same apps and data), with visibility into what each one can access.
 
 ![Integrations](assets/screenshots/tools.jpg)
 
@@ -71,21 +97,28 @@ More in the [dashboard tour](docs/dashboard.md).
 ## Why Minerva is different
 
 **Agents that work in the background.** A roster of specialized agents —
-research, writing, scheduling, home automation — Minerva can talk to directly
-or delegate to on your behalf.
+research, writing, scheduling, home automation — Minerva can talk to
+directly or delegate to on your behalf.
 
-**Connected to your world.** Gmail, Calendar, Drive, Home Assistant, Telegram,
-Discord, and any MCP server you add. Minerva reads across them instead of
-treating each one as its own silo.
+**Connected to your world.** Gmail, Calendar, Drive, Home Assistant,
+Telegram, Discord, and any other tool you connect. Minerva reads across
+them instead of treating each one as its own silo.
 
-**One memory, every surface.** Chat with Minerva directly, or connect Claude
-Code, Cursor, and Codex over MCP — they read and write the same memory.
-Personal assistant and coding-agent memory are two separate products
-everywhere else. Here, they're one.
+**One shared memory.** Chat with Minerva directly, or connect compatible AI
+tools, including coding assistants like Claude Code, Cursor, and Codex,
+over MCP. Personal assistants and coding tools usually keep separate
+memories. Minerva gives them one memory you control.
 
-**On your machine, not someone else's.** The database, the memory, the agents,
-all of it lives on your machine. Back it up by copying a folder. Nothing to
-export, nothing running on a server you don't control.
+---
+
+## Privacy and control
+
+Your memory, database, and agent runtime stay on your machine. External
+services, like Gmail, Home Assistant, or a cloud AI model, are contacted
+only when you choose to connect them.
+
+Back up your data by copying the local folder. There's no separate export
+step, and no account required to use Minerva.
 
 ---
 
@@ -94,8 +127,9 @@ export, nothing running on a server you don't control.
 **Current channel: alpha — early testing.**
 
 We're currently looking for a small group of early testers. If you want to
-try Minerva, break things, and tell us what sucks, [start a
-discussion](https://github.com/XdotX78/Minerva-Project/discussions) or [open an issue](https://github.com/XdotX78/Minerva-Project/issues).
+try Minerva and tell us what breaks, feels confusing, or should work
+better, [start a discussion](https://github.com/XdotX78/Minerva-Project/discussions)
+or [open an issue](https://github.com/XdotX78/Minerva-Project/issues).
 
 What is working today:
 
@@ -116,59 +150,36 @@ The core is functional. Packaging and naming are still being cleaned up.
 
 ---
 
-## Supported clients
-
-Works with Claude Code, Cursor, Codex, OpenClaw, and any other
-MCP-compatible client. Claude Code and OpenClaw also get automatic,
-hands-off memory through native lifecycle hooks.
-
-[See all supported clients →](docs/clients.md)
-
----
-
-## Naming: Minerva and Foundation
-
-The public project name is Minerva.
-
-The internal CLI command is still `foundation`. Windows users do not need to
-use it: the installer and Start menu entry are named Minerva.
-
----
-
-## Requirements
+## Download and install
 
 Supported platforms:
 
-- Linux x86_64
-- macOS Apple Silicon
 - Windows x86_64
+- macOS Apple Silicon
+- Linux x86_64
 
-Linux aarch64 and broader coverage are planned in later releases.
+Linux aarch64 and broader macOS/Linux coverage are planned for later releases.
 
 The binary bundle is self-contained — no Docker, no separate runtime to
 install. Chat and agents need an LLM: point Minerva at a local model (e.g.
 Ollama) or a cloud provider's API key, your choice.
 
----
+The current v0.1.5-alpha prerelease is Windows-only. macOS and Linux install
+from the most recent supported release using the script below; which assets
+are published can vary from release to release.
 
-## Download
+### Windows
 
-### Windows 10/11 (x64)
-
-[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha)
+[**Download Minerva for Windows**](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha)
 
 1. Open the release page.
-2. Download `Minerva-Setup-Windows-x64-<version>.exe`.
+2. Download `Minerva-Setup-Windows-x64-0.1.5-alpha.exe`.
 3. Run the installer.
 4. Open **Minerva** from the Start menu.
 
 No terminal, Rust, Node, Git, WebView2, or administrator access is required.
 Alpha installers may be unsigned; when they are, Windows SmartScreen can show
 a warning. Check the release notes before continuing.
-
-## Other platforms
-
-Pick your system, open the app it names, paste the one line, press Enter.
 
 ### macOS (Apple Silicon)
 
@@ -191,9 +202,9 @@ curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/instal
 
 ### What happens next
 
-On Windows, the installer creates the Start menu entry and starts Minerva. The
-dashboard opens in your browser. On macOS and Linux, the install script performs
-the equivalent setup.
+On Windows, the installer creates the Start menu entry and starts Minerva.
+The dashboard opens in your browser. On macOS and Linux, the install script
+performs the equivalent setup.
 
 Manual install:
 
@@ -205,13 +216,11 @@ Manual install:
 The rollout is staged. Check the [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest)
 to confirm which platform assets are published before relying on the installer.
 
----
-
-## Verify downloads
+### Verify downloads
 
 The current Windows prerelease includes:
 
-- `Minerva-Setup-Windows-x64-<version>.exe`
+- `Minerva-Setup-Windows-x64-0.1.5-alpha.exe`
 - `SHA256SUMS`
 - `build-manifest.json`
 - short [release notes](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha)
@@ -222,9 +231,22 @@ sha256sum -c SHA256SUMS
 
 ---
 
-## Connect a client
+## Supported clients and shared memory
 
-The quickest path is the built-in connector:
+<p align="center">
+  <img src="https://img.shields.io/badge/protocol-MCP-6f42c1" alt="MCP"/>
+  <img src="https://img.shields.io/badge/built%20with-Rust-orange?logo=rust&logoColor=white" alt="Rust"/>
+</p>
+
+Minerva can also share its memory with compatible AI tools through MCP
+(Model Context Protocol), an open standard for connecting AI tools to
+shared data and memory. It works with Claude Code, Cursor, Codex, OpenClaw,
+and any other MCP-compatible client. Claude Code and OpenClaw also get
+automatic, hands-off memory through native lifecycle hooks.
+
+[See all supported clients →](docs/clients.md)
+
+The quickest way to connect a client is the built-in connector:
 
 ```bash
 foundation connect <tool>
@@ -289,6 +311,15 @@ Your memory database is a regular file on disk. Back it up by copying the data
 directory. No special export step is needed.
 
 The database survives upgrades. Your memory is not reset when you update the binary.
+
+---
+
+## Naming: Minerva and Foundation
+
+The public project name is Minerva.
+
+The internal CLI command is still `foundation`. Windows users do not need to
+use it: the installer and Start menu entry are named Minerva.
 
 ---
 
