@@ -21,13 +21,11 @@
 
 ---
 
-<h2 align="center">One private intelligence for your work, your life, and your home.</h2>
+<h2 align="center">Every time you switch apps, devices, or AI models, you start over. Minerva doesn't.</h2>
 
 <p align="center">
-Minerva connects the apps, information, people, and devices around you. It remembers what matters, coordinates specialized AI agents, and helps carry work from a request to a result — without giving up control of your data.
+Minerva remembers what matters, connects the apps, people, and devices around you, and coordinates a set of specialized AI agents to get things done, at work, at home, and in everyday life, without handing your data to anyone else.
 </p>
-
-<p align="center"><strong>It remembers. It connects. It gets things done.</strong></p>
 
 Talk to Minerva by voice or text, directly or through the communication tools
 you already use. Ask for a morning briefing, hand off research, organize a
@@ -51,35 +49,36 @@ key, or combine both.
 
 ### One memory that survives the conversation
 
-Minerva keeps more than chat history. It can preserve decisions, preferences,
-people, projects, relationships, unfinished work, and the source of important
-information. Return tomorrow, switch devices, or use another AI model without
-having to explain everything again.
+Minerva keeps more than a chat log. It can hold onto decisions, preferences,
+people, projects, and unfinished work, along with where each piece of
+information came from. Come back tomorrow, switch devices, or switch AI
+models, and you won't have to explain everything again.
 
 ### One place where your tools can work together
 
-Email, calendar, documents, messaging, AI assistants, and connected devices no
-longer have to behave like separate islands. Minerva gives its agents the
-context and approved connections they need to coordinate work across them.
+Gmail, Calendar, Drive, Home Assistant, Telegram, Discord, and any MCP server
+you add stop acting like separate tools. Minerva gives its agents the context
+and the approved connections they need to work across all of them.
 
-### A team of AI agents, not one overloaded assistant
+### Specialized agents instead of one overloaded assistant
 
-Different jobs need different skills. Minerva can delegate research, writing,
-scheduling, memory, and home tasks to specialized agents while keeping the
-result connected to the same goals and memory.
+Different jobs need different skills. Minerva delegates research, writing,
+scheduling, memory, and home tasks to specialized agents, and keeps the
+results tied back to the same goals and memory.
 
-### Your data, your models, your rules
+### You control the data and the models
 
-Run locally and keep the system under your control. Choose local models or
-external providers instead of being locked into one AI company. Inspect memory,
-review decisions, and keep people in control of sensitive actions.
+Everything runs locally, under your control. Pick a local model or an
+external provider instead of being locked into one AI company. You can
+inspect memory, review agent decisions, and require approval before anything
+sensitive happens.
 
 ---
 
 ## At work, in everyday life, and at home
 
-Minerva is being built for the places where people actually need continuity —
-not only inside a developer tool.
+Minerva is being built for the places people actually need continuity, not
+just inside a developer tool.
 
 | At work | In everyday life | At home |
 | --- | --- | --- |
@@ -88,8 +87,8 @@ not only inside a developer tool.
 | Turn a request into coordinated work for specialized agents | Continue the same conversation from another device or channel | Build routines that understand context instead of isolated commands |
 | Preserve decisions and why they were made | Use voice, text, Telegram, or Discord | Keep household context local and under your control |
 
-These are parts of one system and one memory. Work context does not need to be
-trapped in one app, personal context in another, and home automation in a third.
+These all run on one system and one memory. Work context, personal context,
+and home automation do not have to live in three separate apps.
 
 ---
 
@@ -119,29 +118,9 @@ More in the [dashboard tour](docs/dashboard.md).
 
 ---
 
-## Why Minerva is different
-
-**Agents that work in the background.** A roster of specialized agents —
-research, writing, scheduling, home automation — Minerva can talk to directly
-or delegate to on your behalf.
-
-**Connected to your world.** Gmail, Calendar, Drive, Home Assistant, Telegram,
-Discord, and any MCP server you add. Minerva reads across them instead of
-treating each one as its own silo.
-
-**One memory, wherever you need it.** Chat with Minerva directly, continue from
-another device, or connect compatible AI tools. They can work from the same
-memory instead of starting over in separate silos.
-
-**On your machine, not someone else's.** The database, the memory, the agents,
-all of it lives on your machine. Back it up by copying a folder. Nothing to
-export, nothing running on a server you don't control.
-
----
-
 ## Status
 
-**Current release: 0.1.4-alpha — early testing.**
+**Current release: 0.1.4-alpha, early testing.**
 
 We're currently looking for a small group of early testers. If you want to
 try Minerva, break things, and tell us what sucks, [start a
@@ -180,11 +159,10 @@ automatic memory through native lifecycle hooks.
 
 The public project name is Minerva.
 
-The current CLI command is `foundation`. This is a temporary gap while naming
-and packaging are being cleaned up. When you install and run the system, you
-will be calling `foundation` at the terminal. That is the right binary.
-
-Expect `foundation` in all commands for now.
+The CLI command is still `foundation`, a holdover while naming and packaging
+get cleaned up. When you install and run the system, you'll be typing
+`foundation` at the terminal. That's the correct binary, not a typo in these
+docs.
 
 ---
 
@@ -238,9 +216,9 @@ irm https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/install.ps1 |
 
 ### What happens next
 
-Same on all three: the installer downloads Minerva, checks it, and finishes
-by starting it and opening the dashboard in your browser on its own. No
-second command to run, no address to go find, no app icon to hunt for.
+All three installers do the same thing: download Minerva, verify it, then
+start it and open the dashboard in your browser automatically. You won't need
+to run a second command, look up an address, or hunt for an app icon.
 
 Manual install:
 
@@ -316,8 +294,8 @@ curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/instal
 ## Uninstall
 
 Remove the `foundation` binary and bundled sidecar components. The data
-directory is separate — removing it is optional and will delete your stored
-memory.
+directory is separate; removing it is optional, and doing so will delete your
+stored memory.
 
 Check the [release notes](https://github.com/XdotX78/Minerva-Project/releases/latest) for the exact paths for your platform.
 
