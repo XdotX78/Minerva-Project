@@ -57,6 +57,11 @@ for bin in foundation foundation-capture foundation-summarize foundation-import 
   fi
 done
 
+if [[ -d "$TMP_DIR/apps/minerva-dashboard/dist" ]]; then
+  mkdir -p "$INSTALL_DIR/apps/minerva-dashboard"
+  cp -R "$TMP_DIR/apps/minerva-dashboard/dist" "$INSTALL_DIR/apps/minerva-dashboard/dist"
+fi
+
 echo "Installed Minerva alpha binaries to $INSTALL_DIR"
 
 # $HOME/.local/bin is not on PATH by default on a fresh macOS or Linux
