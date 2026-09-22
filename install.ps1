@@ -58,6 +58,13 @@ try {
         }
     }
 
+    $dashboardDistSrc = Join-Path $TempDir "apps\minerva-dashboard\dist"
+    if (Test-Path $dashboardDistSrc) {
+        $dashboardDst = Join-Path $InstallDir "apps\minerva-dashboard"
+        New-Item -ItemType Directory -Force -Path $dashboardDst | Out-Null
+        Copy-Item $dashboardDistSrc (Join-Path $dashboardDst "dist") -Recurse -Force
+    }
+
     Write-Host "Installed Minerva alpha binaries to $InstallDir"
 
     # $HOME\.local\bin is not on PATH by default -- the binaries are really
