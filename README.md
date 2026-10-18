@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/runs-on%20your%20machine-2ea44f" alt="local-first"/>
 </p>
 
-<h3 align="center">An assistant that remembers everything. And tells no one.</h3>
+<h3 align="center">One assistant you talk to. A team of agents behind it. All on your machine.</h3>
 
 <p align="center">
   One private AI for your work, your life, and your home.<br/>
