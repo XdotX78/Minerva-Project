@@ -25,28 +25,37 @@ Chat and agents need an AI model. Point Corax at a local model (for example
 Ollama or LM Studio) or at a cloud provider's API key. Your choice, and you
 can change it later.
 
-The current v0.1.5-alpha prerelease is Windows-only. macOS and Linux install
-from the most recent supported release using the script below; which assets
-are published can vary from release to release.
+Windows has a normal installer: one file, double click, done. macOS and
+Linux install with the script below; which assets are published can vary from
+release to release.
 
-> **About the name.** The product is now called Corax. In the current alpha
-> the Windows installer and Start menu entry are still named **Minerva**, and
-> the command-line tool is called `foundation`. Same product.
+> **About the name.** The product is called Corax. The command-line tool is
+> called `foundation`, and older releases were named **Minerva**. Same product.
 
 ---
 
 ## Windows
 
-[**Download for Windows**](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha)
+You need Windows 10 or 11 (64-bit) and an administrator account (the one
+you normally use on your own PC is fine).
 
-1. Open the release page.
-2. Download `Minerva-Setup-Windows-x64-0.1.5-alpha.exe`.
-3. Run the installer.
-4. Open **Minerva** from the Start menu.
+1. **Download.** Open the [latest release](https://github.com/XdotX78/Minerva-Project/releases/latest)
+   and click `Corax-Setup-<version>.exe` (for example `Corax-Setup-0.2.0-alpha.exe`).
+2. **Double click** the downloaded file (you find it in **Downloads**).
+3. **If a blue window says "Windows protected your PC"**
+   (in Italian: «Windows ha protetto il PC»): click **More info**
+   («Ulteriori informazioni»), then **Run anyway** («Esegui comunque»).
+   This appears because the alpha setup is not signed with a paid certificate yet.
+4. **Windows asks "Do you want to allow this app to make changes?"**
+   («Vuoi consentire a questa app di apportare modifiche?»): click **Yes** («Sì»).
+5. Wait a minute. When the setup closes, Corax opens in your browser.
 
-No terminal, Rust, Node, Git, WebView2, or administrator access is required.
-Alpha installers may be unsigned; when they are, Windows SmartScreen can show
-a warning. Check the release notes before continuing.
+That's it. From now on:
+
+- Open Corax with the **Corax** icon on the Desktop or in the Start menu.
+- Corax starts by itself when the PC is switched on, even before anyone logs in.
+  Leave the PC on and Corax stays reachable.
+- Nothing else to install: no terminal, Rust, Node, Git or Docker.
 
 ## macOS (Apple Silicon)
 
@@ -69,11 +78,12 @@ curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/instal
 
 ## What happens next
 
-On Windows, the installer creates the Start menu entry and starts Corax.
-The dashboard opens in your browser. On macOS and Linux, the install script
-performs the equivalent setup.
+On Windows, the setup installs Corax in `C:\Program Files\Corax`, keeps your
+data in `C:\ProgramData\foundation`, runs Corax as the Windows service
+`FoundationBrain`, and opens the dashboard in your browser. On macOS and Linux,
+the install script performs the equivalent setup.
 
-Manual install:
+Manual install (macOS and Linux):
 
 1. Download the right archive from the [latest release](https://github.com/XdotX78/Minerva-Project/releases/latest).
 2. Extract it.
@@ -87,12 +97,13 @@ to confirm which platform assets are published before relying on the installer.
 
 ## Verify downloads
 
-The current Windows prerelease includes:
+A Windows release includes:
 
-- `Minerva-Setup-Windows-x64-0.1.5-alpha.exe`
+- `Corax-Setup-<version>.exe`
+- `latest.json` (what the **Update now** button reads; signed by us)
 - `SHA256SUMS`
 - `build-manifest.json`
-- short [release notes](https://github.com/XdotX78/Minerva-Project/releases/tag/v0.1.5-alpha)
+- short release notes
 
 ```bash
 sha256sum -c SHA256SUMS
@@ -120,8 +131,13 @@ Full connector list and per-client notes: [docs/clients.md](docs/clients.md).
 
 ## Upgrade
 
-On Windows, download and run the newer installer. It replaces application files
-without deleting the separate data, configuration, vault, or logs.
+On Windows: open Corax, go to **Settings**, and click **Update now** when a new
+version is shown (Admin only). Corax downloads the new setup, checks that it is
+signed by us and installs it by itself; the page comes back after a short pause.
+An unsigned or older version is never installed.
+
+You can also download the newer `Corax-Setup-<version>.exe` and double click it,
+as for the first install. Your data is kept either way.
 
 Advanced CLI users can also use:
 
@@ -152,7 +168,9 @@ curl -fsSL https://raw.githubusercontent.com/XdotX78/Minerva-Project/main/instal
 ## Backup
 
 Your memory database is a regular file on disk. Back it up by copying the data
-directory. No special export step is needed.
+directory. No special export step is needed. On Windows the data directory is
+`C:\ProgramData\foundation`; stop Corax first (`foundation stop` in an
+administrator terminal) so the copy is complete.
 
 The database survives upgrades. Your memory is not reset when you update.
 
@@ -160,9 +178,10 @@ The database survives upgrades. Your memory is not reset when you update.
 
 ## Uninstall
 
-On Windows, uninstall **Minerva** from Installed apps. Application files and the
-Start menu shortcut are removed; the separate data, configuration, vault, and
-logs are preserved.
+On Windows, open **Settings → Apps → Installed apps**, find **Corax** and click
+**Uninstall**. The program, the service and the shortcuts are removed; your data
+in `C:\ProgramData\foundation` is kept, so reinstalling finds everything. To
+remove the data too, delete that folder after uninstalling.
 
 On macOS and Linux, remove the `foundation` binary and bundled sidecars. The
 data directory remains separate.
