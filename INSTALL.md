@@ -39,9 +39,9 @@ release to release.
 You need Windows 10 or 11 (64-bit) and an administrator account (the one
 you normally use on your own PC is fine).
 
-1. **Download.** [Download Corax for Windows](https://github.com/XdotX78/Minerva-Project/releases/download/v0.2.0-alpha/Corax-Setup-0.2.0-alpha.exe)
+1. **Download.** [Download Corax for Windows](https://github.com/XdotX78/Minerva-Project/releases/latest/download/Corax-Setup-Windows.exe)
    (direct link), or open the [latest release](https://github.com/XdotX78/Minerva-Project/releases/latest)
-   and click `Corax-Setup-<version>.exe` (for example `Corax-Setup-0.2.0-alpha.exe`).
+   and click `Corax-Setup-<version>.exe` (for example `Corax-Setup-0.2.1-alpha.exe`).
 2. **Double click** the downloaded file (you find it in **Downloads**).
 3. **If a blue window says "Windows protected your PC"**
    (in Italian: «Windows ha protetto il PC»): click **More info**

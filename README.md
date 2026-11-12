@@ -18,8 +18,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/XdotX78/Minerva-Project/releases/download/v0.2.0-alpha/Corax-Setup-0.2.0-alpha.exe"><b>⬇ Scarica Corax per Windows / Download for Windows</b></a><br/>
-  <sub>Corax 0.2.0-alpha · Windows 10/11 64-bit · <a href="INSTALL.md#windows">come si installa / how to install</a> · <a href="https://github.com/XdotX78/Minerva-Project/releases/latest">tutte le versioni / all releases</a></sub>
+  <a href="https://github.com/XdotX78/Minerva-Project/releases/latest/download/Corax-Setup-Windows.exe"><b>⬇ Scarica Corax per Windows / Download for Windows</b></a><br/>
+  <sub>Ultima versione / latest version · Windows 10/11 64-bit · <a href="INSTALL.md#windows">come si installa / how to install</a> · <a href="https://github.com/XdotX78/Minerva-Project/releases/latest">tutte le versioni / all releases</a></sub>
 </p>
 
 <p align="center">
